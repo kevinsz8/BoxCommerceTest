@@ -6,5 +6,9 @@ namespace ManufacturerVehicles.Order.Services
 	public interface IOrderInterface
 	{
 		Task<List<GetOrderResponse>> GetOrders(GetOrderRequest request);
+		//Task<List<GetOrderResponse>> GetCustomerOrders(int customerId);
+		//Task<AddOrderResponse> AddOrder(AddOrderRequest request);
+		//Task<bool> UpdateOrderStatus(int orderId, string newStatus);
+		//Task<bool> CancelOrder(int orderId);
 	}
 }

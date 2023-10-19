@@ -25,7 +25,8 @@ namespace ManufacturerVehicles.Order.Business.Handlers
 		{
 			try
 			{
-				var requestI = new GetOrderRequest();
+				
+				var requestI = _mapper.Map<GetOrderRequest>(request);
 				var ordersResponse = await _OrderInterface.GetOrders(requestI);
 
 				var response = new GetOrderHandlerResponse()

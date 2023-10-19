@@ -8,13 +8,10 @@ namespace ManufacturerVehicles.Order.Controllers
 	public class CheckDatabaseConnectionController : ControllerBase
 	{
 		
-
-		private readonly ILogger<CheckDatabaseConnectionController> _logger;
 		private readonly ApplicationDbContext _context;
 
-		public CheckDatabaseConnectionController(ILogger<CheckDatabaseConnectionController> logger, ApplicationDbContext context)
+		public CheckDatabaseConnectionController( ApplicationDbContext context)
 		{
-			_logger = logger;
 			_context = context;
 		}
 

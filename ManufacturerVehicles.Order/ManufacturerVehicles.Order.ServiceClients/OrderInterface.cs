@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using ManufacturerVehicles.Order.Services;
 using ManufacturerVehicles.Order.DataAccess;
 using ManufacturerVehicles.Order.ServiceClients.Messages.Request;
 using ManufacturerVehicles.Order.ServiceClients.Messages.Response;
+using ManufacturerVehicles.Order.Services;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ManufacturerVehicles.Order.ServiceClients
 {
@@ -28,6 +29,11 @@ namespace ManufacturerVehicles.Order.ServiceClients
 									   Status = data.Status,
 									   TotalPrice = data.TotalPrice
 								   }).ToListAsync();
+
+			if (request.MaxResults > 0)
+			{
+				OrderData = OrderData.Take(request.MaxResults).ToList();
+			}
 
 			return OrderData;
 
