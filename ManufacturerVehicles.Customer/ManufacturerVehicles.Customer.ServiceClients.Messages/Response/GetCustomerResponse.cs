@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManufacturerVehicles.ServiceClients.Messages.Response
+namespace ManufacturerVehicles.Customer.ServiceClients.Messages.Response
 {
 	public class GetCustomerResponse
 	{

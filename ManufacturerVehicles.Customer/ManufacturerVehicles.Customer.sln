@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customers", "ManufacturerVehicles\ManufacturerVehicles.Customers.csproj", "{5084E56E-6BB9-4247-B464-8669A940CE64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customer", "ManufacturerVehicles.Customer\ManufacturerVehicles.Customer.csproj", "{5084E56E-6BB9-4247-B464-8669A940CE64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customers.Models", "ManufacturerVehicles.Models\ManufacturerVehicles.Customers.Models.csproj", "{A9A45DB1-E098-48EE-8D8A-955433DE1530}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customer.Models", "ManufacturerVehicles.Customer.Models\ManufacturerVehicles.Customer.Models.csproj", "{A9A45DB1-E098-48EE-8D8A-955433DE1530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customers.DataAccess", "ManufacturerVehicles.DataAccess\ManufacturerVehicles.Customers.DataAccess.csproj", "{1169EA68-B996-47D9-8FDD-EAB0089E7C1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customer.DataAccess", "ManufacturerVehicles.Customer.DataAccess\ManufacturerVehicles.Customer.DataAccess.csproj", "{1169EA68-B996-47D9-8FDD-EAB0089E7C1A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customers", "Customers", "{F62D7D9B-6569-4EB4-A7F6-B668A8657CF0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customer", "Customer", "{F62D7D9B-6569-4EB4-A7F6-B668A8657CF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customers.Business", "ManufacturerVehicles.Customers.Business\ManufacturerVehicles.Customers.Business.csproj", "{8ABE70AA-0615-4884-B005-E06ADA60D245}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customer.Business", "ManufacturerVehicles.Customer.Business\ManufacturerVehicles.Customer.Business.csproj", "{8ABE70AA-0615-4884-B005-E06ADA60D245}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customer.Services", "ManufacturerVehicles.Customer.Services\ManufacturerVehicles.Customer.Services.csproj", "{D41E8697-69C6-40A5-914A-AEAC06679BCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.ServiceClients.Messages", "ManufacturerVehicles.ServiceClients.Messages\ManufacturerVehicles.ServiceClients.Messages.csproj", "{FB5ED728-3354-4D1F-8A00-CF48E5723484}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customer.ServiceClients.Messages", "ManufacturerVehicles.Customer.ServiceClients.Messages\ManufacturerVehicles.Customer.ServiceClients.Messages.csproj", "{FB5ED728-3354-4D1F-8A00-CF48E5723484}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerVehicles.Customer.ServiceClients", "ManufacturerVehicles.Customer.ServiceClients\ManufacturerVehicles.Customer.ServiceClients.csproj", "{6166D1A3-5587-4DEF-9F6B-D66AF7E00D49}"
 EndProject

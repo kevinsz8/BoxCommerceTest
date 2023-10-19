@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ManufacturerVehicles.Customer.Business\ManufacturerVehicles.Customer.Business.csproj" />
+    <ProjectReference Include="..\ManufacturerVehicles.Customer.DataAccess\ManufacturerVehicles.Customer.DataAccess.csproj" />
     <ProjectReference Include="..\ManufacturerVehicles.Customer.ServiceClients\ManufacturerVehicles.Customer.ServiceClients.csproj" />
-    <ProjectReference Include="..\ManufacturerVehicles.Customers.Business\ManufacturerVehicles.Customers.Business.csproj" />
-    <ProjectReference Include="..\ManufacturerVehicles.DataAccess\ManufacturerVehicles.Customers.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,12 @@
 ﻿using Azure.Core;
 using ManufacturerVehicles.Customer.Business.Messages.Query.Request;
 using ManufacturerVehicles.Customer.Business.Messages.Query.Response;
-using ManufacturerVehicles.Customers.DataAccess;
+using ManufacturerVehicles.Customer.DataAccess;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ManufacturerVehicles.Customers.Controllers
+namespace ManufacturerVehicles.Customer.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]

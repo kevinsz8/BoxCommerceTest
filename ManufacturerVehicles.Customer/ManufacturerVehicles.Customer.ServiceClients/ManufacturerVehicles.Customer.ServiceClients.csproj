@@ -8,14 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ManufacturerVehicles.Customer.Business.Messages\ManufacturerVehicles.Customer.Business.Messages.csproj" />
+    <ProjectReference Include="..\ManufacturerVehicles.Customer.DataAccess\ManufacturerVehicles.Customer.DataAccess.csproj" />
     <ProjectReference Include="..\ManufacturerVehicles.Customer.Services\ManufacturerVehicles.Customer.Services.csproj" />
-    <ProjectReference Include="..\ManufacturerVehicles.ServiceClients.Messages\ManufacturerVehicles.ServiceClients.Messages.csproj" />
   </ItemGroup>
 
 </Project>

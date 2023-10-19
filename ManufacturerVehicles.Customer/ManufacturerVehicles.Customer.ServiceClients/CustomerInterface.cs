@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ManufacturerVehicles.Customer.Services;
-using ManufacturerVehicles.Customers.DataAccess;
-using ManufacturerVehicles.ServiceClients.Messages.Request;
-using ManufacturerVehicles.ServiceClients.Messages.Response;
+using ManufacturerVehicles.Customer.DataAccess;
+using ManufacturerVehicles.Customer.ServiceClients.Messages.Request;
+using ManufacturerVehicles.Customer.ServiceClients.Messages.Response;
 using Microsoft.EntityFrameworkCore;
 
 namespace ManufacturerVehicles.Customer.ServiceClients

@@ -1,8 +1,7 @@
-﻿using ManufacturerVehicles.Customers.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace ManufacturerVehicles.Customers.DataAccess
+namespace ManufacturerVehicles.Customer.DataAccess
 {
 	public class ApplicationDbContext : DbContext
 	{
@@ -16,7 +15,7 @@ namespace ManufacturerVehicles.Customers.DataAccess
 			options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 		}
 
-		public DbSet<Customer> Customers
+		public DbSet<Models.Customer> Customers
 		{
 			get;
 			set;

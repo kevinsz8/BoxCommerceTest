@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManufacturerVehicles.Customers.Business.Handlers
+namespace ManufacturerVehicles.Customer.Business.Handlers
 {
 	public class GetCustomerHandler : IRequestHandler<GetCustomerHandlerRequest, GetCustomerHandlerResponse>
 	{

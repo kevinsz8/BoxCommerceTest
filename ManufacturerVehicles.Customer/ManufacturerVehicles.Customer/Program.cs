@@ -1,7 +1,7 @@
-using ManufacturerVehicles.Customers.DataAccess;
+using ManufacturerVehicles.Customer.DataAccess;
 using System.Reflection;
-using ManufacturerVehicles.Customers.Business;
-using ManufacturerVehicles.Customers.Business.Mappers;
+using ManufacturerVehicles.Customer.Business;
+using ManufacturerVehicles.Customer.Business.Mappers;
 using ManufacturerVehicles.Customer.Services;
 using ManufacturerVehicles.Customer.ServiceClients;
 

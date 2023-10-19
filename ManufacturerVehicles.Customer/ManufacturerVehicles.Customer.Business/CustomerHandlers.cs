@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace ManufacturerVehicles.Customers.Business
+namespace ManufacturerVehicles.Customer.Business
 {
 	public static class CustomerHandlers
 	{

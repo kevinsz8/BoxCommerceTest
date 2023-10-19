@@ -1,7 +1,7 @@
-using ManufacturerVehicles.Customers.DataAccess;
+using ManufacturerVehicles.Customer.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ManufacturerVehicles.Customers.Controllers
+namespace ManufacturerVehicles.Customer.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ManufacturerVehicles.Customer.Business.Messages.Query.Response;
-using ManufacturerVehicles.ServiceClients.Messages.Response;
+using ManufacturerVehicles.Customer.ServiceClients.Messages.Response;
 
-namespace ManufacturerVehicles.Customers.Business.Mappers
+namespace ManufacturerVehicles.Customer.Business.Mappers
 {
 	public class AutoMapperProfile : Profile
 	{
