@@ -1,9 +1,8 @@
-﻿using ManufacturerVehicles.Models;
+﻿using ManufacturerVehicles.Customers.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 
-namespace ManufacturerVehicles.DataAccess
+namespace ManufacturerVehicles.Customers.DataAccess
 {
 	public class ApplicationDbContext : DbContext
 	{

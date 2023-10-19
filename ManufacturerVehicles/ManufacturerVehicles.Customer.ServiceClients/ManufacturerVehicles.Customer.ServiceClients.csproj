@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ManufacturerVehicles.Customer.Services\ManufacturerVehicles.Customer.Services.csproj" />
+    <ProjectReference Include="..\ManufacturerVehicles.DataAccess\ManufacturerVehicles.Customers.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,9 @@
-using ManufacturerVehicles.DataAccess;
-using Microsoft.EntityFrameworkCore;
+using ManufacturerVehicles.Customers.DataAccess;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
+using ManufacturerVehicles.Customers.Business;
+using ManufacturerVehicles.Customers.Business.Mappers;
+using ManufacturerVehicles.Customer.Services;
+using ManufacturerVehicles.Customer.ServiceClients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+builder.Services.AddCustomerHandlersModule();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddScoped<ICustomerInterface, CustomerInterface>();
 
 var app = builder.Build();
 
