@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.ServiceClients.Messages.Response
 {
-	public class AddItemsOrderResponse
+	public class AddItemOrderResponse
 	{
 		public string Message { get; set; }
+		public bool Success { get; set; }
 	}
 }

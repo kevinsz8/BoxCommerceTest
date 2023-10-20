@@ -1,6 +1,4 @@
 ﻿using ManufacturerVehicles.Order.Business.Messages.Command.Response;
-using ManufacturerVehicles.Order.Business.Messages.Query.Response;
-using ManufacturerVehicles.Order.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.Business.Messages.Command.Request
 {
-    public class CreateOrderHandlerRequest : IRequest<CreateOrderHandlerResponse>
+	public class AddItemOrderHandlerRequest : IRequest<AddItemOrderHandlerResponse>
 	{
-		public Guid CustomerId { get; set; }
-		public DateTime OrderDate { get; set; }
+		public Guid OrderId { get; set; }
+		public Guid ItemId { get; set; }
+		public int Quantity { get; set; }
+		public decimal Price { get; set; }
 	}
 }

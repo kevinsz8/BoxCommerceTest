@@ -36,18 +36,26 @@ namespace ManufacturerVehicles.Order.Controllers
 		}
 
 		[HttpPost]
-		[Route("addItemsOrder")]
-		[ProducesResponseType(typeof(AddItemsOrderHandlerResponse), 200)]
-		public async Task<AddItemsOrderHandlerResponse> AddItemsOrder([FromBody] AddItemsOrderHandlerRequest request)
+		[Route("addItemOrder")]
+		[ProducesResponseType(typeof(AddItemOrderHandlerResponse), 200)]
+		public async Task<AddItemOrderHandlerResponse> AddItemOrder([FromBody] AddItemOrderHandlerRequest request)
+		{
+			return await _mediator.Send(request);
+		}
+
+		[HttpPost]
+		[Route("updateStatusOrder")]
+		[ProducesResponseType(typeof(UpdateStatusOrderHandlerResponse), 200)]
+		public async Task<UpdateStatusOrderHandlerResponse> UpdateStatusOrder([FromBody] UpdateStatusOrderHandlerRequest request)
 		{
 			return await _mediator.Send(request);
 		}
 
 		[HttpDelete]
-		[Route("removeItemsOrder")]
-		[ProducesResponseType(typeof(CreateOrderHandlerResponse), 200)]
-		public async Task<CreateOrderHandlerResponse> RemoveItemsOrder([FromBody] CreateOrderHandlerRequest request)
+		[Route("{orderId}/{itemId}")]
+		public async Task<DeleteItemOrderHandlerResponse> DeleteItemOrder(Guid orderId, Guid itemId)
 		{
+			var request = new DeleteItemOrderHandlerRequest() { OrderId = orderId, ItemId = itemId };	
 			return await _mediator.Send(request);
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ManufacturerVehicles.Order.DataAccess;
+using ManufacturerVehicles.Order.Models;
 using ManufacturerVehicles.Order.ServiceClients.Messages.Request;
 using ManufacturerVehicles.Order.ServiceClients.Messages.Response;
 using ManufacturerVehicles.Order.Services;
@@ -19,24 +20,36 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			_mapper = mapper;
 		}
 
-		public async Task<AddItemsOrderResponse> AddItemsOrder(AddItemsOrderRequest request)
+		public async Task<AddItemOrderResponse> AddItemsOrder(AddItemOrderRequest request)
 		{
-			var orderItemInsert = new Models.OrderItem()
+			var orderItem = await _context.OrderItems.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId && oi.ItemID == request.ItemId);
+
+			var response = new AddItemOrderResponse();
+			if (orderItem == null)
 			{
-				OrderID = request.OrderId,
-				ItemID = request.ItemId,
-				Quantity = request.Quantity,
-				Price = request.Price
-			};
+				var orderItemInsert = new Models.OrderItem()
+				{
+					OrderID = request.OrderId,
+					ItemID = request.ItemId,
+					Quantity = request.Quantity,
+					Price = request.Price
+				};
 
-			await _context.OrderItems.AddAsync(orderItemInsert);
-			int savedCount = await _context.SaveChangesAsync();
+				await _context.OrderItems.AddAsync(orderItemInsert);
+				int savedCount = await _context.SaveChangesAsync();
 
-			var response = new AddItemsOrderResponse();
+				
 
-			if (savedCount > 0)
+				if (savedCount > 0)
+				{
+					response.Message = "Item saved!";
+					response.Success = true;
+				}
+			}
+			else
 			{
-				response.Message = "Item saved";
+				response.Message = "Item already exists on this order!";
+				response.Success = false;
 			}
 
 			return response;
@@ -50,7 +63,7 @@ namespace ManufacturerVehicles.Order.ServiceClients
 				OrderID = newOrderId,
 				CustomerID = request.CustomerId,
 				OrderDate = request.OrderDate,
-				Status = request.Status.ToString(),
+				Status = OrderStatus.New.ToString(),
 			};
 			
 
@@ -87,6 +100,35 @@ namespace ManufacturerVehicles.Order.ServiceClients
 
 			return OrderData;
 
+		}
+
+		public async Task<bool> UpdateOrderStatus(UpdateOrderStatusRequest request)
+		{
+			var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderID == request.OrderId);
+
+			if (order != null)
+			{
+				order.Status = request.Status.ToString();
+				_context.Orders.Update(order);
+				await _context.SaveChangesAsync();
+				return true;
+			}
+
+			return false;
+		}
+
+		public async Task<bool> DeleteItemOrder(DeleteItemOrderRequest request)
+		{
+			var orderItem = await _context.OrderItems.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId && oi.ItemID == request.ItemId);
+
+			if (orderItem != null)
+			{
+				_context.OrderItems.Remove(orderItem);
+				await _context.SaveChangesAsync();
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.ServiceClients.Messages.Request
 {
-	public class AddItemsOrderRequest
+	public class AddItemOrderRequest
 	{
 		public Guid OrderId { get; set; }
 		public Guid ItemId { get; set; }

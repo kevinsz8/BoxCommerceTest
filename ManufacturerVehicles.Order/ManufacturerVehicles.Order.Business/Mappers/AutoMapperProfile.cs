@@ -16,7 +16,11 @@ namespace ManufacturerVehicles.Order.Business.Mappers
 
 			CreateMap<CreateOrderHandlerRequest, CreateOrderRequest>();
 
-			CreateMap<AddItemsOrderHandlerRequest, AddItemsOrderRequest>();
+			CreateMap<AddItemOrderHandlerRequest, AddItemOrderRequest>();
+
+			CreateMap<UpdateStatusOrderHandlerRequest, UpdateOrderStatusRequest>();
+
+			CreateMap<DeleteItemOrderHandlerRequest, DeleteItemOrderRequest>();
 		}
 	}
 }

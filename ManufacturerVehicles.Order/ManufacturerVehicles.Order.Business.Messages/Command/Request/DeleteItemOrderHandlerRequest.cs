@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.Business.Messages.Command.Request
 {
-	public class AddItemsOrderHandlerRequest : IRequest<AddItemsOrderHandlerResponse>
+	public class DeleteItemOrderHandlerRequest : IRequest<DeleteItemOrderHandlerResponse>
 	{
 		public Guid OrderId { get; set; }
 		public Guid ItemId { get; set; }
-		public int Quantity { get; set; }
-		public decimal Price { get; set; }
 	}
 }

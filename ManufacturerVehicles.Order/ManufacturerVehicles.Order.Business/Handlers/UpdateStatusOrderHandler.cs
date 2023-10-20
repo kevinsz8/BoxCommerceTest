@@ -16,49 +16,48 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.Business.Handlers
 {
-	public class CreateOrderHandler : IRequestHandler<CreateOrderHandlerRequest, CreateOrderHandlerResponse>
+	public class UpdateStatusOrderHandler : IRequestHandler<UpdateStatusOrderHandlerRequest, UpdateStatusOrderHandlerResponse>
 	{
 		private readonly IOrderInterface _OrderInterface;
 		private readonly IMapper _mapper;
 		private readonly ILogger _logger;
-		public CreateOrderHandler(IOrderInterface OrderInterface, IMapper mapper, ILogger<CreateOrderHandler> logger)
+		public UpdateStatusOrderHandler(IOrderInterface OrderInterface, IMapper mapper, ILogger<GetOrderHandler> logger)
 		{
 			_OrderInterface = OrderInterface;
 			_mapper = mapper;
 			_logger = logger;
 		}
 
-		public async Task<CreateOrderHandlerResponse> Handle(CreateOrderHandlerRequest request, CancellationToken cancellationToken)
+		public async Task<UpdateStatusOrderHandlerResponse> Handle(UpdateStatusOrderHandlerRequest request, CancellationToken cancellationToken)
 		{
 			try
 			{
 
-				var requestI = _mapper.Map<CreateOrderRequest>(request);
-				var ordersResponse = await _OrderInterface.CreateOrder(requestI);
-				var response = new CreateOrderHandlerResponse();
-				if (ordersResponse != null)
+				var requestI = _mapper.Map<UpdateOrderStatusRequest>(request);
+				var statusResponse = await _OrderInterface.UpdateOrderStatus(requestI);
+
+				var response = new UpdateStatusOrderHandlerResponse();
+				if (statusResponse)
 				{
-					response.StatusMessage = "Success";
-					response.CustomerId = ordersResponse.CustomerId;
-					response.OrderId = ordersResponse.OrderId;
+					response.StatusMessage = "Order Status Updated!";
+					response.OrderId = request.OrderId;
+					response.OrderStatus = request.Status;
 					response.Success = true;
 				}
 				else
 				{
-					response.StatusMessage = "Not Saved";
+					response.StatusMessage = "Order Status Not Updated!";
 					response.Success = false;
 				}
 
 				return response;
-
-
 
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "An error occurred while handling the request.");
 
-				var errorResponse = new CreateOrderHandlerResponse
+				var errorResponse = new UpdateStatusOrderHandlerResponse
 				{
 					StatusMessage = "Error",
 					ErrorMessage = "An error occurred while processing your request. Please try again later.",

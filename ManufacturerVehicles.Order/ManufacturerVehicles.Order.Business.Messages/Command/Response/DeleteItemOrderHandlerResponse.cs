@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.Business.Messages.Command.Response
 {
-	public class AddItemsOrderHandlerResponse : BaseResponse
+	public class DeleteItemOrderHandlerResponse : BaseResponse
 	{
-		public Guid ItemId { get; set; }
-		public string Message { get; set; }
+		public Guid OrderId { get; set; }
 	}
 }

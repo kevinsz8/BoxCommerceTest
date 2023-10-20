@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.ServiceClients.Messages.Request
 {
-	public class CreateOrderRequest
+	public class UpdateOrderStatusRequest
 	{
-		public Guid CustomerId { get; set; }
-		public DateTime OrderDate { get; set; }
+		public Guid OrderId { get; set; }
+		public OrderStatus Status { get; set; }
 	}
 }

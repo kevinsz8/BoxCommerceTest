@@ -13,49 +13,51 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.Business.Handlers
 {
-	public class AddItemsOrderHandler : IRequestHandler<AddItemsOrderHandlerRequest, AddItemsOrderHandlerResponse>
+	public class AddItemsOrderHandler : IRequestHandler<AddItemOrderHandlerRequest, AddItemOrderHandlerResponse>
 	{
 		private readonly IOrderInterface _OrderInterface;
 		private readonly IMapper _mapper;
 		private readonly ILogger _logger;
-		public AddItemsOrderHandler(IOrderInterface OrderInterface, IMapper mapper, ILogger<GetOrderHandler> logger)
+		public AddItemsOrderHandler(IOrderInterface OrderInterface, IMapper mapper, ILogger<AddItemsOrderHandler> logger)
 		{
 			_OrderInterface = OrderInterface;
 			_mapper = mapper;
 			_logger = logger;
 		}
 
-		public async Task<AddItemsOrderHandlerResponse> Handle(AddItemsOrderHandlerRequest request, CancellationToken cancellationToken)
+		public async Task<AddItemOrderHandlerResponse> Handle(AddItemOrderHandlerRequest request, CancellationToken cancellationToken)
 		{
 			try
 			{
 
-				var requestI = _mapper.Map<AddItemsOrderRequest>(request);
+				var requestI = _mapper.Map<AddItemOrderRequest>(request);
 				var ordersResponse = await _OrderInterface.AddItemsOrder(requestI);
-				var response = new AddItemsOrderHandlerResponse();
+
+				var response = new AddItemOrderHandlerResponse();
+
 				if (!string.IsNullOrEmpty(ordersResponse.Message))
 				{
-					response.StatusMessage = "Success";
+					response.StatusMessage = ordersResponse.Success? "Success" : "Failed";
 					response.ItemId = request.ItemId;
-					response.Message = ordersResponse.Message;
-					response.Success = true;
+					response.Message = ordersResponse.Success ? ordersResponse.Message : null;
+					response.ErrorMessage = ordersResponse.Success ? "" : ordersResponse.Message;
+					response.Success = ordersResponse.Success;
 				}
 				else
 				{
-					response.StatusMessage = "Not Saved";
+					response.StatusMessage = "Failed";
+					response.ErrorMessage = "Item Not Saved!";
 					response.Success = false;
 				}
 
 				return response;
-
-
 
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "An error occurred while handling the request.");
 
-				var errorResponse = new AddItemsOrderHandlerResponse
+				var errorResponse = new AddItemOrderHandlerResponse
 				{
 					StatusMessage = "Error",
 					ErrorMessage = "An error occurred while processing your request. Please try again later.",
