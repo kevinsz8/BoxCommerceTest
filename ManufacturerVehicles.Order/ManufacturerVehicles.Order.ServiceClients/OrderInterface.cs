@@ -19,6 +19,29 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			_mapper = mapper;
 		}
 
+		public async Task<AddItemsOrderResponse> AddItemsOrder(AddItemsOrderRequest request)
+		{
+			var orderItemInsert = new Models.OrderItem()
+			{
+				OrderID = request.OrderId,
+				ItemID = request.ItemId,
+				Quantity = request.Quantity,
+				Price = request.Price
+			};
+
+			await _context.OrderItems.AddAsync(orderItemInsert);
+			int savedCount = await _context.SaveChangesAsync();
+
+			var response = new AddItemsOrderResponse();
+
+			if (savedCount > 0)
+			{
+				response.Message = "Item saved";
+			}
+
+			return response;
+		}
+
 		public async Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request)
 		{
 			var newOrderId = Guid.NewGuid();

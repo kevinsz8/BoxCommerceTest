@@ -34,5 +34,21 @@ namespace ManufacturerVehicles.Order.Controllers
 		{
 			return await _mediator.Send(request);
 		}
+
+		[HttpPost]
+		[Route("addItemsOrder")]
+		[ProducesResponseType(typeof(AddItemsOrderHandlerResponse), 200)]
+		public async Task<AddItemsOrderHandlerResponse> AddItemsOrder([FromBody] AddItemsOrderHandlerRequest request)
+		{
+			return await _mediator.Send(request);
+		}
+
+		[HttpDelete]
+		[Route("removeItemsOrder")]
+		[ProducesResponseType(typeof(CreateOrderHandlerResponse), 200)]
+		public async Task<CreateOrderHandlerResponse> RemoveItemsOrder([FromBody] CreateOrderHandlerRequest request)
+		{
+			return await _mediator.Send(request);
+		}
 	}
 }

@@ -21,5 +21,11 @@ namespace ManufacturerVehicles.Order.DataAccess
 			set;
 		}
 
+		public DbSet<Models.OrderItem> OrderItems
+		{
+			get;
+			set;
+		}
+
 	}
 }

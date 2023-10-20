@@ -8,6 +8,7 @@ namespace ManufacturerVehicles.Order.Services
 		Task<List<GetOrderResponse>> GetOrders(GetOrderRequest request);
 		//Task<List<GetOrderResponse>> GetCustomerOrders(int customerId);
 		Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request);
+		Task<AddItemsOrderResponse> AddItemsOrder(AddItemsOrderRequest request);
 		//Task<bool> UpdateOrderStatus(int orderId, string newStatus);
 		//Task<bool> CancelOrder(int orderId);
 	}
