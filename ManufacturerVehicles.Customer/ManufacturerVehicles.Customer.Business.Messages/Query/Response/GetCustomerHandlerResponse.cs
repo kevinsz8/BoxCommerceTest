@@ -8,7 +8,7 @@ namespace ManufacturerVehicles.Customer.Business.Messages.Query.Response
 {
     public class GetCustomerHandlerResponse
     {
-        public int CustomerID { get; set; }
+        public Guid CustomerID { get; set; }
 
         public string Name { get; set; }
 

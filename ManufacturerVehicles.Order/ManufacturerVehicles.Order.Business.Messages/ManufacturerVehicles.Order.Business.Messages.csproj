@@ -10,4 +10,8 @@
     <PackageReference Include="MediatR" Version="12.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ManufacturerVehicles.Order.Models\ManufacturerVehicles.Order.Models.csproj" />
+  </ItemGroup>
+
 </Project>

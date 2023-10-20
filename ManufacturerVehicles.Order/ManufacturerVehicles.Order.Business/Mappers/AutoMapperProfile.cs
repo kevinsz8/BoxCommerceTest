@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManufacturerVehicles.Order.Business.Messages.Command.Request;
 using ManufacturerVehicles.Order.Business.Messages.Common;
 using ManufacturerVehicles.Order.Business.Messages.Query.Request;
 using ManufacturerVehicles.Order.ServiceClients.Messages.Request;
@@ -12,6 +13,8 @@ namespace ManufacturerVehicles.Order.Business.Mappers
 		{
 			CreateMap<GetOrderHandlerRequest,GetOrderRequest>();
 			CreateMap<GetOrderResponse, Orders>();
+
+			CreateMap<CreateOrderHandlerRequest, CreateOrderRequest>();
 		}
 	}
 }

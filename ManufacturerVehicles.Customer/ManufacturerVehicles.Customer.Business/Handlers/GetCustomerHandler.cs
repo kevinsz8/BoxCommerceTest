@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ManufacturerVehicles.Customer.Business.Messages.Query.Request;
 using ManufacturerVehicles.Customer.Business.Messages.Query.Response;
+using ManufacturerVehicles.Customer.ServiceClients.Messages.Request;
 using ManufacturerVehicles.Customer.Services;
-using ManufacturerVehicles.ServiceClients.Messages.Request;
 using MediatR;
 using System;
 using System.Collections.Generic;

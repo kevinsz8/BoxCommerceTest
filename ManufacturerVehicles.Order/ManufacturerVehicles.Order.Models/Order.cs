@@ -6,10 +6,11 @@ namespace ManufacturerVehicles.Order.Models
 	public class Order
 	{
 		[Key]
-		public int OrderID { get; set; }
+		public Guid OrderID { get; set; }
 
-		public int CustomerID { get; set; }
+		public Guid CustomerID { get; set; }
 
+		[Column(TypeName = "datetime")]
 		public DateTime OrderDate { get; set; }
 
 		[MaxLength(50)]

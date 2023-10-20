@@ -5,7 +5,7 @@ namespace ManufacturerVehicles.Customer.Models
 	public class Customer
 	{
 		[Key]
-		public int CustomerID { get; set; }
+		public Guid CustomerID { get; set; }
 
 		[MaxLength(255)]
 		public string Name { get; set; }

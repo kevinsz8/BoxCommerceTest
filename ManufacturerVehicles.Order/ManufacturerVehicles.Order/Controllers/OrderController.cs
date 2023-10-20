@@ -1,4 +1,6 @@
-﻿using ManufacturerVehicles.Order.Business.Messages.Query.Request;
+﻿using ManufacturerVehicles.Order.Business.Messages.Command.Request;
+using ManufacturerVehicles.Order.Business.Messages.Command.Response;
+using ManufacturerVehicles.Order.Business.Messages.Query.Request;
 using ManufacturerVehicles.Order.Business.Messages.Query.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,14 @@ namespace ManufacturerVehicles.Order.Controllers
 		public async Task<GetOrderHandlerResponse> GetOrder([FromRoute] int maxResults = 0)
 		{
 			var request = new GetOrderHandlerRequest() { MaxResults = maxResults };
+			return await _mediator.Send(request);
+		}
+
+		[HttpPost]
+		[Route("createOrder")]
+		[ProducesResponseType(typeof(CreateOrderHandlerResponse), 200)]
+		public async Task<CreateOrderHandlerResponse> CreateOrder([FromBody] CreateOrderHandlerRequest request)
+		{
 			return await _mediator.Send(request);
 		}
 	}

@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-builder.Services.AddOrderHandlersModule();
+builder.Services.CreateOrderHandlersModule();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddScoped<IOrderInterface, OrderInterface>();

@@ -18,6 +18,33 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			_context = context;
 			_mapper = mapper;
 		}
+
+		public async Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request)
+		{
+			var newOrderId = Guid.NewGuid();
+			var orderInsert = new Models.Order()
+			{
+				OrderID = newOrderId,
+				CustomerID = request.CustomerId,
+				OrderDate = request.OrderDate,
+				Status = request.Status.ToString(),
+			};
+			
+
+			await _context.Orders.AddAsync(orderInsert);
+			await _context.SaveChangesAsync();
+
+			var response = await (from data in _context.Orders
+								  where data.CustomerID == request.CustomerId && data.OrderID == newOrderId && data.Status == "New"
+								  select new CreateOrderResponse
+								  {
+									  CustomerId = data.CustomerID,
+									  OrderId = data.OrderID,
+								  }).FirstOrDefaultAsync();
+
+			return response;
+		}
+
 		public async Task<List<GetOrderResponse>> GetOrders(GetOrderRequest request)
 		{
 			var OrderData = await (from data in _context.Orders

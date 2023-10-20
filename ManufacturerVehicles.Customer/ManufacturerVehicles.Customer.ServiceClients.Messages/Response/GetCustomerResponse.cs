@@ -9,7 +9,7 @@ namespace ManufacturerVehicles.Customer.ServiceClients.Messages.Response
 {
 	public class GetCustomerResponse
 	{
-		public int? CustomerID { get; set; }
+		public Guid CustomerID { get; set; }
 
 		public string? Name { get; set; }
 
