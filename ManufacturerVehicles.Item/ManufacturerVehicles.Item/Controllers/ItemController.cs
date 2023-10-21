@@ -19,7 +19,8 @@ namespace ManufacturerVehicles.Item.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpGet(Name = "GetItem")]
+		[HttpGet]
+		[Route("getItems")]
 		[ProducesResponseType(typeof(GetItemHandlerResponse), 200)]
 		public async Task<GetItemHandlerResponse> GetItem()
 		{
