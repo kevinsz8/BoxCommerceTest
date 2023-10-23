@@ -21,7 +21,8 @@ namespace ManufacturerVehicles.Customer.Controllers
 			_mediator = mediator;
 		}
 
-		[HttpGet(Name = "GetCustomer")]
+		[HttpGet]
+		[Route("getCustomer")]
 		[ProducesResponseType(typeof(GetCustomerHandlerResponse), 200)]
 		public async Task<GetCustomerHandlerResponse> GetCustomer()
 		{
