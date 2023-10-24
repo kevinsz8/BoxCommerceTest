@@ -8,6 +8,7 @@ function populateCustomerDropdown() {
                     .attr("value", customer.customerID)
                     .text(customer.name));
             });
+            $('#table-spinner').addClass('d-none');
         }
     });
 }
@@ -80,11 +81,85 @@ function fillItemDropdown() {
             }));
 
             items.forEach(function (item) {
-                itemDropdown.append($('<option>', {
-                    value: item.itemID,
+                var option = $('<option>', {
+                    value: item.itemID, 
                     text: item.name
-                }));
+                });
+                option.data('price', item.price);
+                itemDropdown.append(option);
             });
         }
     });
 }
+
+// Button to add item to order 
+
+$("#addItemBtn").on("click", function () {
+    $('#add-item-order-spinner').removeClass('d-none');
+    var selectedItemId = $("#itemDropdown").val();
+    var orderId = $("#OrderId").val();
+    var quantity = parseInt($("#quantity").val());
+    var selectedPrice = parseFloat($("#itemDropdown option:selected").data('price')).toFixed(2);
+
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:7072/Order/addItemOrder",
+        contentType: "application/json",
+        data: JSON.stringify({
+            orderId: orderId,
+            itemId: selectedItemId,
+            quantity: quantity,
+            price: selectedPrice
+        }),
+        success: function (response) {
+            
+            if (response.success) {
+                
+                alert(response.message);
+                populateOrderItemsTable();
+            }
+            else
+            {
+                $('#add-item-order-spinner').addClass('d-none');
+                alert(response.message);
+            }
+            
+        },
+        error: function (error) {
+            alert(error);
+            $('#add-item-order-spinner').addClass('d-none');
+        }
+    });
+});
+
+
+// Order Items Table
+
+function populateOrderItemsTable() {
+    var orderId = $("#OrderId").val();
+    $.get("https://localhost:7072/Order/getOrderItems/"+ orderId)
+    .done(function (data) {
+        if (data.success) {
+            var orderItemTableBody = $("#item-table-body");
+            orderItemTableBody.empty();
+                $.each(data.orderItems, function (index, orderItem) {
+                    orderItemTableBody.append(
+                    `<tr>
+                        <td>${orderItem.itemID}</td>
+                        <td>Name</td>
+                        <td>Item Type</td>
+                        <td>${orderItem.quantity}</td>
+                        <td>${orderItem.price}</td>
+                    </tr>`
+                );
+            });
+
+        }
+
+    })
+    .always(function () {
+        $('#add-item-order-spinner').addClass('d-none');
+    });
+
+}
+

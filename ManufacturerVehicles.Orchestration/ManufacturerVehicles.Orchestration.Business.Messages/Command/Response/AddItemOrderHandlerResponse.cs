@@ -11,5 +11,5 @@ namespace ManufacturerVehicles.Orchestration.Business.Messages.Command.Response
 	{
 		public Guid ItemId { get; set; }
 		public string? Message { get; set; }
-	}
+    }
 }

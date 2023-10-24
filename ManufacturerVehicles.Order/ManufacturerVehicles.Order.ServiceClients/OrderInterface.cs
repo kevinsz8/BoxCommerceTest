@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManufacturerVehicles.Order.Business.Messages.Common;
 using ManufacturerVehicles.Order.DataAccess;
 using ManufacturerVehicles.Order.Models;
 using ManufacturerVehicles.Order.ServiceClients.Messages.Request;
@@ -66,17 +67,29 @@ namespace ManufacturerVehicles.Order.ServiceClients
 				Status = OrderStatus.New.ToString(),
 			};
 			
+			
 
-			await _context.Orders.AddAsync(orderInsert);
-			await _context.SaveChangesAsync();
+            await _context.Orders.AddAsync(orderInsert);
+            int savedCount = await _context.SaveChangesAsync();
 
-			var response = await (from data in _context.Orders
+            var response = await (from data in _context.Orders
 								  where data.CustomerID == request.CustomerId && data.OrderID == newOrderId && data.Status == "New"
 								  select new CreateOrderResponse
 								  {
 									  CustomerId = data.CustomerID,
 									  OrderId = data.OrderID,
 								  }).FirstOrDefaultAsync();
+
+			if(response != null && savedCount > 0)
+			{
+                response.StatusMessage = "Order Created!";
+                response.Success = true;
+            }
+			else
+			{
+				response.ErrorMessage = "Order not created!";
+				response.Success = false;
+			}
 
 			return response;
 		}
@@ -130,5 +143,34 @@ namespace ManufacturerVehicles.Order.ServiceClients
 
 			return false;
 		}
-	}
+
+        public async Task<GetOrderItemByOrderIdResponse> GetOrderItemsByOrderId(GetOrderItemByOrderIdRequest request)
+        {
+            var orderItem = await _context.OrderItems.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
+			var response = new GetOrderItemByOrderIdResponse();
+
+            if (orderItem != null)
+			{
+				response.OrderItems = await (from o in _context.Orders
+								  join oi in _context.OrderItems on o.OrderID equals oi.OrderID
+								  where o.OrderID == request.OrderId
+								  select new OrderItems
+								  {
+									  OrderID = o.OrderID,
+									  ItemID = oi.ItemID,
+									  Price = oi.Price,
+									  Quantity = oi.Quantity,
+								  }).ToListAsync();
+
+				response.Success = true;
+			}
+			else
+			{
+				response.Success = false;
+			}
+
+			return response;
+
+        }
+    }
 }

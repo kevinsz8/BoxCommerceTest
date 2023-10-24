@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ManufacturerVehicles.Order.Business.Messages\ManufacturerVehicles.Order.Business.Messages.csproj" />
     <ProjectReference Include="..\ManufacturerVehicles.Order.Models\ManufacturerVehicles.Order.Models.csproj" />
   </ItemGroup>
 

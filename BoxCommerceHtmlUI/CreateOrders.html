@@ -70,7 +70,7 @@
     </div>
 
     <div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="itemModalLabel">Order Items</h5>
@@ -81,9 +81,52 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <select id="itemDropdown" class="form-control">
-                        <option value="">Please select an item</option>
-                    </select>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="itemDropdown">Select an Item:</label>
+                                    <select id="itemDropdown" class="form-control">
+                                        <option value="">Please select an item</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" name="quantity" id="quantity" class="form-control" />
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" id="addItemBtn" style="margin-top: 20%;">Add Item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="container mt-5">
+                        <h3>Items</h3>
+                        <table class="table table-striped" id="OrderItems">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Name</th>
+                                    <th>Item Type</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="item-table-body">
+                            </tbody>
+                        </table>
+                        <div class="text-center" id="add-item-order-spinner">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Adding Item...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -100,9 +143,9 @@
     <script src="styles.css"></script>
     <script>
         
-        $('#table-spinner').addClass('d-none');
+        
         $('#create-order-spinner').addClass('d-none');
-
+        $('#add-item-order-spinner').addClass('d-none');
         populateCustomerDropdown();
         
 

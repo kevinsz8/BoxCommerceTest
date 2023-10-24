@@ -11,6 +11,8 @@ namespace ManufacturerVehicles.Order.Services
 		Task<AddItemOrderResponse> AddItemsOrder(AddItemOrderRequest request);
 		Task<bool> DeleteItemOrder(DeleteItemOrderRequest request);
 		Task<bool> UpdateOrderStatus(UpdateOrderStatusRequest request);
-		//Task<bool> CancelOrder(int orderId);
-	}
+
+        Task<GetOrderItemByOrderIdResponse> GetOrderItemsByOrderId(GetOrderItemByOrderIdRequest request);
+        //Task<bool> CancelOrder(int orderId);
+    }
 }

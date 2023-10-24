@@ -43,7 +43,7 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 				var errorResponse = new GetOrderHandlerResponse
 				{
 					StatusMessage = "Error",
-					ErrorMessage = ex.Message,
+					ErrorMessage = ex.InnerException.Message,
 					Success = false
 				};
 

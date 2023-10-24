@@ -2,6 +2,7 @@
 using ManufacturerVehicles.Order.Business.Messages.Command.Request;
 using ManufacturerVehicles.Order.Business.Messages.Common;
 using ManufacturerVehicles.Order.Business.Messages.Query.Request;
+using ManufacturerVehicles.Order.Business.Messages.Query.Response;
 using ManufacturerVehicles.Order.ServiceClients.Messages.Request;
 using ManufacturerVehicles.Order.ServiceClients.Messages.Response;
 
@@ -21,6 +22,9 @@ namespace ManufacturerVehicles.Order.Business.Mappers
 			CreateMap<UpdateStatusOrderHandlerRequest, UpdateOrderStatusRequest>();
 
 			CreateMap<DeleteItemOrderHandlerRequest, DeleteItemOrderRequest>();
-		}
+
+            CreateMap<GetOrderItemByOrderIdHandlerRequest, GetOrderItemByOrderIdRequest>();
+            CreateMap<GetOrderItemByOrderIdResponse, GetOrderItemByOrderIdHandlerResponse>();
+        }
 	}
 }

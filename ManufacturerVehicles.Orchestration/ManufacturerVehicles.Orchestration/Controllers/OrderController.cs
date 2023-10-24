@@ -66,5 +66,14 @@ namespace ManufacturerVehicles.Orchestration.Controllers
 			var request = new DeleteItemOrderHandlerRequest() { OrderId = orderId, ItemId = itemId };
 			return await _mediator.Send(request);
 		}
-	}
+
+        [HttpGet]
+        [Route("getOrderItems/{orderId}")]
+        [ProducesResponseType(typeof(GetOrderItemByOrderIdHandlerResponse), 200)]
+        public async Task<GetOrderItemByOrderIdHandlerResponse> GetOrderItemsByOrderId([FromRoute] Guid orderId)
+        {
+            var request = new GetOrderItemByOrderIdHandlerRequest() { OrderId = orderId };
+            return await _mediator.Send(request);
+        }
+    }
 }

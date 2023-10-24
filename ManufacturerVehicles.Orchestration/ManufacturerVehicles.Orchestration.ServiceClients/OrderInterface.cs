@@ -46,7 +46,7 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
 			return await _httpService.DeleteAsync<DeleteItemOrderRequest, DeleteItemOrderResponse>(url, request);
 		}
 
-		public async Task<GetOrderResponse> GetOrders(GetOrderRequest request)
+        public async Task<GetOrderResponse> GetOrders(GetOrderRequest request)
 		{
 			var url = _options.GetOrdersEndpoint.Replace("{maxResults}", request.MaxResults.ToString());
 			return await _httpService.GetAsync<GetOrderResponse>(url);
@@ -57,5 +57,11 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
 			var url = _options.UpdateOrderStatusEndpoint;
 			return await _httpService.PostAsync<UpdateOrderStatusRequest, UpdateOrderStatusResponse>(url, request);
 		}
-	}
+
+        public async Task<GetOrderItemByOrderIdResponse> GetOrderItemsByOrderId(GetOrderItemByOrderIdRequest request)
+        {
+            var url = _options.GetOrderItemByOrderIdEndpoint.Replace("{orderId}", request.OrderId.ToString());
+            return await _httpService.GetAsync<GetOrderItemByOrderIdResponse>(url);
+        }
+    }
 }
