@@ -50,14 +50,22 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
 			}
 		}
 
-		public async Task<bool> DeleteAsync<TRequest>(string url, TRequest request)
+		public async Task<TResponse> DeleteAsync<TRequest, TResponse>(string url, TRequest request)
 		{
 			var jsonRequest = JsonConvert.SerializeObject(request);
 			var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
 			var response = await _httpClient.DeleteAsync(url);
 
-			return response.IsSuccessStatusCode;
+			if (response.IsSuccessStatusCode)
+			{
+				var jsonResponse = await response.Content.ReadAsStringAsync();
+				return JsonConvert.DeserializeObject<TResponse>(jsonResponse);
+			}
+			else
+			{
+				return default;
+			}
 		}
 
 
