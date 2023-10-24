@@ -43,7 +43,7 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 				var errorResponse = new AddItemOrderHandlerResponse
 				{
 					StatusMessage = "Error",
-					ErrorMessage = "An error occurred while processing your request. Please try again later.",
+					ErrorMessage = ex.Message,
 					Success = false
 				};
 

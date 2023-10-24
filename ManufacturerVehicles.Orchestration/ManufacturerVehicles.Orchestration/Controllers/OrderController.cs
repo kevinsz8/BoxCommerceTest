@@ -3,13 +3,15 @@ using ManufacturerVehicles.Orchestration.Business.Messages.Command.Response;
 using ManufacturerVehicles.Orchestration.Business.Messages.Query.Request;
 using ManufacturerVehicles.Orchestration.Business.Messages.Query.Response;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManufacturerVehicles.Orchestration.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	public class OrderController : ControllerBase
+    [EnableCors("MyPolicy")]
+    public class OrderController : ControllerBase
 	{
 		private readonly IMediator _mediator;
 

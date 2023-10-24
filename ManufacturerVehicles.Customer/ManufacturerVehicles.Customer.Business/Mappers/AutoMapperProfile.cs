@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ManufacturerVehicles.Customer.Business.Messages.Common;
 using ManufacturerVehicles.Customer.Business.Messages.Query.Response;
 using ManufacturerVehicles.Customer.ServiceClients.Messages.Response;
 
@@ -8,7 +9,7 @@ namespace ManufacturerVehicles.Customer.Business.Mappers
 	{
 		public AutoMapperProfile()
 		{
-			CreateMap<GetCustomerResponse, GetCustomerHandlerResponse>();
+			CreateMap<GetCustomerResponse, Customers>();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using ManufacturerVehicles.Orchestration.Business.Messages.Query.Request;
 using ManufacturerVehicles.Orchestration.Business.Messages.Query.Response;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -8,7 +9,8 @@ namespace ManufacturerVehicles.Orchestration.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	public class ItemController : ControllerBase
+    [EnableCors("MyPolicy")]
+    public class ItemController : ControllerBase
 	{
 		private readonly IMediator _mediator;
 

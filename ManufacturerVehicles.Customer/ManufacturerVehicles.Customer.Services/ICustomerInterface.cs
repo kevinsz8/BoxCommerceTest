@@ -5,6 +5,7 @@ namespace ManufacturerVehicles.Customer.Services
 {
 	public interface ICustomerInterface
 	{
-		Task<GetCustomerResponse> GetCustomers(GetCustomerRequest request);
-	}
+        Task<List<GetCustomerResponse>> GetCustomers(GetCustomerRequest request);
+
+    }
 }

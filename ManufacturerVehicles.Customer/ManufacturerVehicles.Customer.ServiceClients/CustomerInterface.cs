@@ -17,7 +17,7 @@ namespace ManufacturerVehicles.Customer.ServiceClients
 			_context = context;
 			_mapper = mapper;
 		}
-		public async Task<GetCustomerResponse> GetCustomers(GetCustomerRequest request)
+		public async Task<List<GetCustomerResponse>> GetCustomers(GetCustomerRequest request)
 		{
 			var customerData = await (from data in _context.Customers 
 									  select new GetCustomerResponse
@@ -26,7 +26,7 @@ namespace ManufacturerVehicles.Customer.ServiceClients
 										  Email = data.Email,
 										  Name = data.Name,
 										  Phone = data.Phone
-									  }).FirstOrDefaultAsync();
+									  }).ToListAsync();
 
 			return customerData;
 		}
