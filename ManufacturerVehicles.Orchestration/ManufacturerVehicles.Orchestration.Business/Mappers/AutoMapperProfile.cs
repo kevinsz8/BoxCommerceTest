@@ -26,6 +26,8 @@ namespace ManufacturerVehicles.Orchestration.Business.Mappers
 
 			CreateMap<DeleteItemOrderHandlerRequest, DeleteItemOrderRequest>();
 			CreateMap<DeleteItemOrderResponse, DeleteItemOrderHandlerResponse>();
-		}
+
+            CreateMap<GetCustomerResponse, GetCustomerHandlerResponse>();
+        }
 	}
 }

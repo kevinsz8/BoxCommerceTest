@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ManufacturerVehicles.Orchestration.Business.Messages.Query.Response;
+using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Orchestration.Business.Messages.Query.Request
 {
-    internal class GetCustomerHandlerRequest
+    public class GetCustomerHandlerRequest : IRequest<GetCustomerHandlerResponse>
     {
     }
 }

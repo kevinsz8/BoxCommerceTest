@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManufacturerVehicles.Orchestration.Business.Messages.Query.Response
+namespace ManufacturerVehicles.Orchestration.ServiceClients.Messages.Response
 {
-    public class GetCustomerHandlerResponse : BaseResponse
+    public class GetCustomerResponse : BaseResponse
     {
         public List<Customers> Customers { get; set; }
     }

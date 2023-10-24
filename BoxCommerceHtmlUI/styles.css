@@ -1,0 +1,20 @@
+body {
+    background-color: #f4f4f4;
+}
+
+.navbar {
+    background-color: #007BFF;
+}
+.navbar a {
+    color: #fff;
+}
+.container {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 #888888;
+}
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}

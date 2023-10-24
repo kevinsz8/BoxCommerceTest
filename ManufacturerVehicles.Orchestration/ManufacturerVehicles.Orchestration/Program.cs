@@ -31,6 +31,7 @@ builder.Services.AddOrchestrationHandlersModule();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddScoped<IItemInterface, ItemInterface>();
 builder.Services.AddScoped<IOrderInterface, OrderInterface>();
+builder.Services.AddScoped<ICustomerInterface, CustomerInterface>();
 builder.Services.AddScoped<HttpClient>();
 builder.Services.AddScoped<HttpService>();
 

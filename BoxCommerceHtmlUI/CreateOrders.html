@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Items List</title>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">My App</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Items.html">Items</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="CreateOrders.html">Orders</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h3>Create Order</h3>
+    <form id="order-form">
+        <div class="form-group">
+            <label for="customer-dropdown">Select Customer:</label>
+            <select class="form-control" id="customer-dropdown">
+                
+                <!-- Options will be populated dynamically -->
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" id="create-order-btn">Create Order</button>
+        <div class="text-center" id="create-order-spinner">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Creating Order...</span>
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <div class="container mt-5">
+        <h3>Orders</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer ID</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody id="order-table-body">
+                
+            </tbody>
+        </table>
+        <div class="text-center" id="table-spinner">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="itemModalLabel">Order Items</h5>
+                    <input type="hidden" name="OrderId" id="OrderId" />
+                    <input type="hidden" name="CustomerId" id="CustomerId" />
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select id="itemDropdown" class="form-control">
+                        <option value="">Please select an item</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confirmItemBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="orders-script.js"></script>
+    <script src="styles.css"></script>
+    <script>
+        
+        $('#table-spinner').addClass('d-none');
+        $('#create-order-spinner').addClass('d-none');
+
+        populateCustomerDropdown();
+        
+
+        populateOrderTable();
+
+        fillItemDropdown();
+        $("#create-order-btn").on("click", function () {
+            $('#create-order-spinner').removeClass('d-none');
+            var selectedCustomerId = $("#customer-dropdown").val();
+            createOrder(selectedCustomerId);
+        });
+    </script>
+</body>
+</html>
