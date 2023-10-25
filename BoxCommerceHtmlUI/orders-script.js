@@ -14,21 +14,45 @@ function populateCustomerDropdown() {
 }
 
 function populateOrderTable() {
+    $('#table-spinner').removeClass('d-none'); 
     $.get("https://localhost:7072/Order/getOrders/0")
     .done(function (data) {
         if (data.success) {
             var orderTableBody = $("#order-table-body");
             orderTableBody.empty();
                 $.each(data.orders, function (index, order) {
+                    // Creating edit button 
+                    var editButton = $("<button>")
+                    .text("Edit")
+                    .addClass("btn btn-primary")
+                    .on("click", function () {
+                        
+                        $("#OrderId").val(order.orderID);
+                        $("#CustomerId").val(order.customerID);
+                        
+                        populateOrderItemsTable(order.orderID);
+                        
+                        $("#itemModal").modal("show");
+                    });
+
+                    var actionColumn = $("<td>").append(editButton);
+
+                    var formattedTotalPrice = parseFloat(order.totalPrice).toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD"
+                    });
+
                 orderTableBody.append(
                     `<tr>
                         <td>${order.orderID}</td>
                         <td>${order.customerID}</td>
                         <td>${order.orderDate}</td>
                         <td>${order.status}</td>
-                        <td>${order.totalPrice}</td>
+                        <td>${formattedTotalPrice}</td>
+                        <td></td>
                     </tr>`
                 );
+                orderTableBody.find('tr:last td:last').append(actionColumn);
             });
         }
     })
@@ -136,6 +160,7 @@ $("#addItemBtn").on("click", function () {
 // Order Items Table
 
 function populateOrderItemsTable() {
+    $('#add-item-order-spinner').removeClass('d-none');
     var orderId = $("#OrderId").val();
     $.get("https://localhost:7072/Order/getOrderItems/"+ orderId)
     .done(function (data) {
@@ -143,13 +168,19 @@ function populateOrderItemsTable() {
             var orderItemTableBody = $("#item-table-body");
             orderItemTableBody.empty();
                 $.each(data.orderItems, function (index, orderItem) {
+
+                    var formattedItemPrice = parseFloat(orderItem.price).toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD"
+                    });
+
                     orderItemTableBody.append(
                     `<tr>
                         <td>${orderItem.itemID}</td>
                         <td>Name</td>
                         <td>Item Type</td>
                         <td>${orderItem.quantity}</td>
-                        <td>${orderItem.price}</td>
+                        <td>${formattedItemPrice}</td>
                     </tr>`
                 );
             });
@@ -163,3 +194,47 @@ function populateOrderItemsTable() {
 
 }
 
+
+// this is just to clean the modal wen close 
+
+$("#itemModal").on('hidden.bs.modal', function () {
+    $("#OrderId").val('');
+    $("#CustomerId").val('');
+
+    $("#OrderItems tbody").empty();
+    populateOrderTable();
+});
+
+//Confirm Order Button and close modal then update Orders Table
+$("#confirmOrderBtn").on("click", function () {
+    $('#add-item-order-spinner').removeClass('d-none');
+    var orderId = $("#OrderId").val();
+
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:7072/Order/confirmOrder",
+        contentType: "application/json",
+        data: JSON.stringify({
+            orderId: orderId
+        }),
+        success: function (response) {
+            
+            if (response.success) {
+                
+                alert(response.statusMessage);
+                $('#add-item-order-spinner').addClass('d-none');
+                $("#itemModal").modal("hide");
+            }
+            else
+            {
+                $('#add-item-order-spinner').addClass('d-none');
+                alert(response.message);
+            }
+            
+        },
+        error: function (error) {
+            alert(error);
+            $('#add-item-order-spinner').addClass('d-none');
+        }
+    });
+});

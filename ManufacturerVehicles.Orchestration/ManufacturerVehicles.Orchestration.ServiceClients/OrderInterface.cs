@@ -63,5 +63,11 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
             var url = _options.GetOrderItemByOrderIdEndpoint.Replace("{orderId}", request.OrderId.ToString());
             return await _httpService.GetAsync<GetOrderItemByOrderIdResponse>(url);
         }
+
+        public async Task<ConfirmOrderResponse> ConfirmOrder(ConfirmOrderRequest request)
+        {
+            var url = _options.ConfirmOrderEndpoint;
+            return await _httpService.PostAsync<ConfirmOrderRequest, ConfirmOrderResponse>(url, request);
+        }
     }
 }

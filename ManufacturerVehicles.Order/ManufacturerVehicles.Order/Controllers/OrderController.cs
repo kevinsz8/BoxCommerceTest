@@ -67,5 +67,21 @@ namespace ManufacturerVehicles.Order.Controllers
             var request = new GetOrderItemByOrderIdHandlerRequest() { OrderId = orderId };
             return await _mediator.Send(request);
         }
+
+        [HttpPost]
+        [Route("confirmOrder")]
+        [ProducesResponseType(typeof(ConfirmOrderHandlerResponse), 200)]
+        public async Task<ConfirmOrderHandlerResponse> ConfirmOrder([FromBody] ConfirmOrderHandlerRequest request)
+        {
+            return await _mediator.Send(request);
+        }
+
+        [HttpPost]
+        [Route("cancelOrder")]
+        [ProducesResponseType(typeof(CancelOrderHandlerResponse), 200)]
+        public async Task<CancelOrderHandlerResponse> CancelOrder([FromBody] CancelOrderHandlerRequest request)
+        {
+            return await _mediator.Send(request);
+        }
     }
 }

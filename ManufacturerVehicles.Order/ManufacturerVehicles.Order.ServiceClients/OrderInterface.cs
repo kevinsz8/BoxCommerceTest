@@ -123,8 +123,12 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			{
 				order.Status = request.Status.ToString();
 				_context.Orders.Update(order);
-				await _context.SaveChangesAsync();
-				return true;
+				int saveCount = await _context.SaveChangesAsync();
+
+				if (saveCount > 0)
+					return true;
+				else
+					return false;
 			}
 
 			return false;
@@ -137,19 +141,23 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			if (orderItem != null)
 			{
 				_context.OrderItems.Remove(orderItem);
-				await _context.SaveChangesAsync();
-				return true;
-			}
+                int saveCount = await _context.SaveChangesAsync();
+
+                if (saveCount > 0)
+                    return true;
+                else
+                    return false;
+            }
 
 			return false;
 		}
 
         public async Task<GetOrderItemByOrderIdResponse> GetOrderItemsByOrderId(GetOrderItemByOrderIdRequest request)
         {
-            var orderItem = await _context.OrderItems.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
+            var order = await _context.Orders.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
 			var response = new GetOrderItemByOrderIdResponse();
 
-            if (orderItem != null)
+            if (order != null)
 			{
 				response.OrderItems = await (from o in _context.Orders
 								  join oi in _context.OrderItems on o.OrderID equals oi.OrderID
@@ -171,6 +179,60 @@ namespace ManufacturerVehicles.Order.ServiceClients
 
 			return response;
 
+        }
+
+        public async Task<ConfirmOrderResponse> ConfirmOrder(ConfirmOrderRequest request)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
+            var orderItem = await _context.OrderItems.Where(oi => oi.OrderID == request.OrderId).ToListAsync();
+
+            var response = new ConfirmOrderResponse();
+
+			if (order != null && orderItem != null)
+			{
+				if(order.Status == "New")
+				{
+                    var totalPrice = await _context.OrderItems
+					.Where(oi => oi.OrderID == request.OrderId)
+					.SumAsync(oi => oi.Price);
+
+					order.TotalPrice = totalPrice;
+                    order.Status = OrderStatus.Confirmed.ToString();
+
+                    _context.Orders.Update(order);
+                    int saveCount = await _context.SaveChangesAsync();
+
+					if (saveCount > 0)
+					{
+                        response.Success = true;
+                        response.StatusMessage = "Your order: " + request.OrderId + " is confirmed in our system! We will notify you of any changes on your order.";
+                    }
+					else
+					{
+                        response.Success = false;
+                        response.StatusMessage = "Your order cannot be confirmed";
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.StatusMessage = "Your order is cannot be confirmed, because it is in status:" + order.Status;
+                }
+
+            }
+			else
+			{
+				response.StatusMessage = "Order does not exists!";
+				response.Success = false;
+			}
+			
+
+            return response;
+        }
+
+        public async Task<CancelOrderResponse> CancelOrder(CancelOrderRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -75,5 +75,13 @@ namespace ManufacturerVehicles.Orchestration.Controllers
             var request = new GetOrderItemByOrderIdHandlerRequest() { OrderId = orderId };
             return await _mediator.Send(request);
         }
+
+        [HttpPost]
+        [Route("confirmOrder")]
+        [ProducesResponseType(typeof(ConfirmOrderHandlerResponse), 200)]
+        public async Task<ConfirmOrderHandlerResponse> ConfirmOrder([FromBody] ConfirmOrderHandlerRequest request)
+        {
+            return await _mediator.Send(request);
+        }
     }
 }
