@@ -46,6 +46,11 @@ namespace ManufacturerVehicles.Order.ServiceClients
 					response.Message = "Item saved!";
 					response.Success = true;
 				}
+				else
+				{
+                    response.Message = "Item was not saved!";
+                    response.Success = false;
+                }
 			}
 			else
 			{

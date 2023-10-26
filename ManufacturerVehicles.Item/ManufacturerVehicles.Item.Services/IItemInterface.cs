@@ -6,5 +6,6 @@ namespace ManufacturerVehicles.Item.Services
 	public interface IItemInterface
 	{
 		Task<List<GetItemResponse>> GetItems(GetItemRequest request);
-	}
+        Task<ModifyStockItemResponse> ModifyStockItem(ModifyStockItemRequest request);
+    }
 }

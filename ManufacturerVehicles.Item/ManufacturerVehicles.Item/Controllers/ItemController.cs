@@ -1,4 +1,6 @@
 ﻿using Azure.Core;
+using ManufacturerVehicles.Item.Business.Messages.Command.Request;
+using ManufacturerVehicles.Item.Business.Messages.Command.Response;
 using ManufacturerVehicles.Item.Business.Messages.Query.Request;
 using ManufacturerVehicles.Item.Business.Messages.Query.Response;
 using ManufacturerVehicles.Item.DataAccess;
@@ -25,9 +27,15 @@ namespace ManufacturerVehicles.Item.Controllers
 		public async Task<GetItemHandlerResponse> GetItem()
 		{
 			var request = new GetItemHandlerRequest();
-			var response = await _mediator.Send(request);
-
-			return response;
+			return await _mediator.Send(request);
 		}
-	}
+
+        [HttpPost]
+        [Route("modifyStockItem")]
+        [ProducesResponseType(typeof(ModifyStockItemHandlerResponse), 200)]
+        public async Task<ModifyStockItemHandlerResponse> ModifyStockItem([FromBody] ModifyStockItemHandlerRequest request )
+        {
+			return await _mediator.Send(request);
+        }
+    }
 }

@@ -16,11 +16,13 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
     public class GetOrderItemByOrderIdHandler : IRequestHandler<GetOrderItemByOrderIdHandlerRequest, GetOrderItemByOrderIdHandlerResponse>
     {
         private readonly IOrderInterface _OrderInterface;
+        private readonly IItemInterface _ItemInterface;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        public GetOrderItemByOrderIdHandler(IOrderInterface OrderInterface, IMapper mapper, ILogger<GetOrderItemByOrderIdHandler> logger)
+        public GetOrderItemByOrderIdHandler(IOrderInterface OrderInterface, IItemInterface ItemInterface, IMapper mapper, ILogger<GetOrderItemByOrderIdHandler> logger)
         {
             _OrderInterface = OrderInterface;
+            _ItemInterface = ItemInterface;
             _mapper = mapper;
             _logger = logger;
         }
@@ -32,6 +34,21 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 
                 var requestI = _mapper.Map<GetOrderItemByOrderIdRequest>(request);
                 var ordersResponse = await _OrderInterface.GetOrderItemsByOrderId(requestI);
+
+                
+
+                if(ordersResponse.OrderItems.Count > 0)
+                {
+                    var requestItem = new GetItemRequest();
+                    var itemsReponse = await _ItemInterface.GetItems(requestItem);
+
+                    foreach (var item in ordersResponse.OrderItems)
+                    {
+                        var dataItem = itemsReponse.Items.FirstOrDefault(x => x.ItemID == item.ItemID);
+                        item.Name = dataItem?.Name;
+                        item.ItemType = dataItem?.ItemType;
+                    }
+                }
 
                 var response = _mapper.Map<GetOrderItemByOrderIdHandlerResponse>(ordersResponse);
 

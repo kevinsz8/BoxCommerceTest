@@ -35,16 +35,19 @@ function populateOrderTable() {
                         $("#itemModal").modal("show");
                     });
 
-                    var actionColumn = $("<td>").append(editButton);
+                    var actionColumn = $("<p>").append(editButton);
 
                     var formattedTotalPrice = parseFloat(order.totalPrice).toLocaleString("en-US", {
                         style: "currency",
                         currency: "USD"
                     });
 
-                orderTableBody.append(
+                    var hiddenItemIdColumn = `<td class="d-none">${order.orderID}</td>`;
+
+                    orderTableBody.append(
                     `<tr>
-                        <td>${order.orderID}</td>
+                        ${hiddenItemIdColumn}
+                        <td>${index + 1}</td>
                         <td>${order.customerID}</td>
                         <td>${order.orderDate}</td>
                         <td>${order.status}</td>
@@ -139,13 +142,13 @@ $("#addItemBtn").on("click", function () {
             
             if (response.success) {
                 
-                alert(response.message);
+                alert(response.message + ' ' + response.statusMessage);
                 populateOrderItemsTable();
             }
             else
             {
                 $('#add-item-order-spinner').addClass('d-none');
-                alert(response.message);
+                alert(response.errorMessage);
             }
             
         },
@@ -169,20 +172,33 @@ function populateOrderItemsTable() {
             orderItemTableBody.empty();
                 $.each(data.orderItems, function (index, orderItem) {
 
+                    var deleteButton = $("<button>")
+                    .text("Delete")
+                    .addClass("btn btn-danger delete-item")
+                    .data("itemId", orderItem.itemID)
+                    .data("quantity", orderItem.quantity);
+
+                    var actionColumn = $("<p>").append(deleteButton);
+
                     var formattedItemPrice = parseFloat(orderItem.price).toLocaleString("en-US", {
                         style: "currency",
                         currency: "USD"
                     });
 
+                    var hiddenItemIdColumn = `<td class="d-none">${orderItem.itemID}</td>`;
+
                     orderItemTableBody.append(
                     `<tr>
-                        <td>${orderItem.itemID}</td>
-                        <td>Name</td>
-                        <td>Item Type</td>
+                        ${hiddenItemIdColumn}
+                        <td>${index + 1}</td>
+                        <td>${orderItem.name}</td>
+                        <td>${orderItem.itemType}</td>
                         <td>${orderItem.quantity}</td>
                         <td>${formattedItemPrice}</td>
+                        <td></td>
                     </tr>`
                 );
+                orderItemTableBody.find('tr:last td:last').append(actionColumn);
             });
 
         }
@@ -237,4 +253,37 @@ $("#confirmOrderBtn").on("click", function () {
             $('#add-item-order-spinner').addClass('d-none');
         }
     });
+});
+
+// delete items button 
+
+$("#item-table-body").on("click", ".delete-item", function () {
+    
+    var itemId = $(this).data("itemId");
+    var quantity = $(this).data("quantity");
+    var orderId = $("#OrderId").val();
+
+    var confirmDelete = confirm("Are you sure you want to delete this item from the order?");
+
+    if (confirmDelete) 
+    {
+        $('#add-item-order-spinner').removeClass('d-none');
+        $.ajax({
+            type: "DELETE", 
+            url: "https://localhost:7072/Order/" + orderId + "/" + itemId + "/" + quantity, 
+            success: function (response) {
+                if (response.success) {
+                    alert(response.statusMessage);
+                    populateOrderItemsTable();
+                } else {
+                    $('#add-item-order-spinner').addClass('d-none');
+                    alert(response.errorMessage);
+                }
+            },
+            error: function (error) {
+                alert(error);
+                $('#add-item-order-spinner').addClass('d-none');
+            }
+        });
+    }
 });

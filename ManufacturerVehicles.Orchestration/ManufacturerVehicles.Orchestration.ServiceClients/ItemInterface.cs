@@ -29,5 +29,10 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
 			return response;
 		}
 
-	}
+        public async Task<ModifyStockItemResponse> ModifyStockItem(ModifyStockItemRequest request)
+        {
+            var url = _options.ModifyStockItemsEndpoint;
+            return await _httpService.PostAsync<ModifyStockItemRequest, ModifyStockItemResponse>(url, request);
+        }
+    }
 }

@@ -60,10 +60,10 @@ namespace ManufacturerVehicles.Orchestration.Controllers
 		}
 
 		[HttpDelete]
-		[Route("{orderId}/{itemId}")]
-		public async Task<DeleteItemOrderHandlerResponse> DeleteItemOrder(Guid orderId, Guid itemId)
+		[Route("{orderId}/{itemId}/{quantity}")]
+		public async Task<DeleteItemOrderHandlerResponse> DeleteItemOrder(Guid orderId, Guid itemId, int quantity)
 		{
-			var request = new DeleteItemOrderHandlerRequest() { OrderId = orderId, ItemId = itemId };
+			var request = new DeleteItemOrderHandlerRequest() { OrderId = orderId, ItemId = itemId, Quantity = quantity };
 			return await _mediator.Send(request);
 		}
 

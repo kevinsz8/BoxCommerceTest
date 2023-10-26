@@ -16,11 +16,13 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 	public class DeleteItemOrderHandler : IRequestHandler<DeleteItemOrderHandlerRequest, DeleteItemOrderHandlerResponse>
 	{
 		private readonly IOrderInterface _OrderInterface;
+		private readonly IItemInterface _ItemInterface;
 		private readonly IMapper _mapper;
 		private readonly ILogger _logger;
-		public DeleteItemOrderHandler(IOrderInterface OrderInterface, IMapper mapper, ILogger<DeleteItemOrderHandler> logger)
+		public DeleteItemOrderHandler(IOrderInterface OrderInterface, IItemInterface ItemInterface, IMapper mapper, ILogger<DeleteItemOrderHandler> logger)
 		{
 			_OrderInterface = OrderInterface;
+			_ItemInterface = ItemInterface;
 			_mapper = mapper;
 			_logger = logger;
 		}
@@ -31,6 +33,19 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 			{
 				var requestI = _mapper.Map<DeleteItemOrderRequest>(request);
 				var res = await _OrderInterface.DeleteItemOrder(requestI);
+
+				if (res.Success)
+				{
+					//modify stock
+					var requestStock = new ModifyStockItemRequest()
+					{
+						ItemId = request.ItemId,
+						Quantity = request.Quantity,
+						IsAdd = false
+					};
+
+					var modifyStock = await _ItemInterface.ModifyStockItem(requestStock);
+				}
 
 				var response = _mapper.Map<DeleteItemOrderHandlerResponse>(res);
 

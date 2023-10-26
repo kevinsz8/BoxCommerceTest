@@ -16,11 +16,13 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 	public class AddItemOrderHandler : IRequestHandler<AddItemOrderHandlerRequest, AddItemOrderHandlerResponse>
 	{
 		private readonly IOrderInterface _OrderInterface;
+		private readonly IItemInterface _ItemInterface;
 		private readonly IMapper _mapper;
 		private readonly ILogger _logger;
-		public AddItemOrderHandler(IOrderInterface OrderInterface, IMapper mapper, ILogger<AddItemOrderHandler> logger)
+		public AddItemOrderHandler(IOrderInterface OrderInterface, IItemInterface ItemInterface, IMapper mapper, ILogger<AddItemOrderHandler> logger)
 		{
 			_OrderInterface = OrderInterface;
+			_ItemInterface = ItemInterface;
 			_mapper = mapper;
 			_logger = logger;
 		}
@@ -30,9 +32,30 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 			try
 			{
 				var requestI = _mapper.Map<AddItemOrderRequest>(request);
-				var res = await _OrderInterface.AddItemsOrder(requestI);
 
-				var response = _mapper.Map<AddItemOrderHandlerResponse>(res);
+				//Add item to order
+				var res = await _OrderInterface.AddItemsOrder(requestI);
+                var response = _mapper.Map<AddItemOrderHandlerResponse>(res);
+
+                if (res.Success)
+				{
+					//modify stock
+					var requestStock = new ModifyStockItemRequest()
+					{
+						ItemId = request.ItemId,
+						Quantity = request.Quantity,
+						IsAdd = true
+					};
+
+					var modifyStock = await _ItemInterface.ModifyStockItem(requestStock);
+					if(modifyStock.Success)
+					{
+						if(modifyStock.RemainingQuantity > 0)
+						{
+							response.StatusMessage = modifyStock.StatusMessage;
+						}
+					}
+				}
 
 				return response;
 			}
