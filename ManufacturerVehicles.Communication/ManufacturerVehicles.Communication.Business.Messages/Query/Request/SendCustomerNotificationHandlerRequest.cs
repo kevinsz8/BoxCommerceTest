@@ -8,5 +8,6 @@ namespace ManufacturerVehicles.Communication.Business.Messages.Query.Request
         public Guid OrderId { get; set; }
         public Guid CustomerId { get; set; }
         public string Status { get; set; }
+        public string Action { get; set; }
     }
 }

@@ -34,10 +34,11 @@ namespace ManufacturerVehicles.Order.Business.Handlers
 				var statusResponse = await _OrderInterface.DeleteItemOrder(requestI);
 
 				var response = new DeleteItemOrderHandlerResponse();
-				if (statusResponse)
+				if (statusResponse.Success)
 				{
 					response.StatusMessage = "Item was removed from order!";
 					response.OrderId = request.OrderId;
+					response.QuantityRemaining = statusResponse.QuantityRemaining;
 					response.Success = true;
 				}
 				else

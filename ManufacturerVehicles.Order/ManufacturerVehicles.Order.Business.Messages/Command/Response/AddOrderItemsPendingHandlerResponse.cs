@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Order.Business.Messages.Command.Response
 {
-	public class DeleteItemOrderHandlerResponse : BaseResponse
-	{
-		public Guid OrderId { get; set; }
-		public int QuantityRemaining { get; set; }
-	}
+    public class AddOrderItemsPendingHandlerResponse : BaseResponse
+    {
+    }
 }

@@ -17,5 +17,7 @@ namespace ManufacturerVehicles.Orchestration.Services
 		Task<UpdateOrderStatusResponse> UpdateOrderStatus(UpdateOrderStatusRequest request);
         Task<GetOrderItemByOrderIdResponse> GetOrderItemsByOrderId(GetOrderItemByOrderIdRequest request);
         Task<ConfirmOrderResponse> ConfirmOrder(ConfirmOrderRequest request);
+        Task<AddOrderItemsPendingResponse> AddOrderItemsPending(AddOrderItemsPendingRequest request);
+        Task<DeleteOrderItemsPendingResponse> DeleteOrderItemsPending(DeleteOrderItemsPendingRequest request);
     }
 }

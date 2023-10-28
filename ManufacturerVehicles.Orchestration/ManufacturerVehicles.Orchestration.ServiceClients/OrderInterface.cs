@@ -69,5 +69,20 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
             var url = _options.ConfirmOrderEndpoint;
             return await _httpService.PostAsync<ConfirmOrderRequest, ConfirmOrderResponse>(url, request);
         }
+
+        public async Task<AddOrderItemsPendingResponse> AddOrderItemsPending(AddOrderItemsPendingRequest request)
+        {
+            var url = _options.AddOrderItemsPendingEndpoint;
+            return await _httpService.PostAsync<AddOrderItemsPendingRequest, AddOrderItemsPendingResponse>(url, request);
+        }
+
+        public async Task<DeleteOrderItemsPendingResponse> DeleteOrderItemsPending(DeleteOrderItemsPendingRequest request)
+        {
+            var url = _options.DeleteOrderItemsPendingEndpoint
+            .Replace("{orderId}", request.OrderId.ToString())
+            .Replace("{itemId}", request.ItemId.ToString());
+            return await _httpService.DeleteAsync<DeleteOrderItemsPendingRequest, DeleteOrderItemsPendingResponse>(url, request);
+        }
+
     }
 }

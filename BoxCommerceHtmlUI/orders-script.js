@@ -172,13 +172,20 @@ function populateOrderItemsTable() {
             orderItemTableBody.empty();
                 $.each(data.orderItems, function (index, orderItem) {
 
-                    var deleteButton = $("<button>")
-                    .text("Delete")
+                    var deleteButton = $("<button title='Delete item'>")
+                    .html("<i class='fas fa-times'></i>")
                     .addClass("btn btn-danger delete-item")
                     .data("itemId", orderItem.itemID)
                     .data("quantity", orderItem.quantity);
 
                     var actionColumn = $("<p>").append(deleteButton);
+
+                    //var subTotal = parseFloat(orderItem.price) * parseFloat(orderItem.quantity);
+
+                    var formattedAmountPrice = parseFloat(orderItem.price * orderItem.quantity).toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD"
+                    });
 
                     var formattedItemPrice = parseFloat(orderItem.price).toLocaleString("en-US", {
                         style: "currency",
@@ -195,6 +202,7 @@ function populateOrderItemsTable() {
                         <td>${orderItem.itemType}</td>
                         <td>${orderItem.quantity}</td>
                         <td>${formattedItemPrice}</td>
+                        <td>${formattedAmountPrice}</td>
                         <td></td>
                     </tr>`
                 );

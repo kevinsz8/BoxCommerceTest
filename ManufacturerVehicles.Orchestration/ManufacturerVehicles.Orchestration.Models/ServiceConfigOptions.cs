@@ -17,6 +17,8 @@ namespace ManufacturerVehicles.Orchestration.Models
 		public string GetOrderItemByOrderIdEndpoint { get; set; }
 		public string ConfirmOrderEndpoint { get; set; }
 		public string ModifyStockItemsEndpoint { get; set; }
+        public string AddOrderItemsPendingEndpoint { get; set; }
+		public string DeleteOrderItemsPendingEndpoint { get; set; }
 
     }
 }

@@ -27,5 +27,11 @@ namespace ManufacturerVehicles.Order.DataAccess
 			set;
 		}
 
-	}
+        public DbSet<Models.OrderItemsPending> OrderItemsPending
+        {
+            get;
+            set;
+        }
+
+    }
 }

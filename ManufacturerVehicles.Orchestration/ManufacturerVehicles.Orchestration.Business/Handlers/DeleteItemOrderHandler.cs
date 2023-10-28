@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ManufacturerVehicles.Orchestration.Business.Messages.Command.Request;
 using ManufacturerVehicles.Orchestration.Business.Messages.Command.Response;
+using ManufacturerVehicles.Orchestration.Business.Messages.Common;
 using ManufacturerVehicles.Orchestration.ServiceClients.Messages.Request;
 using ManufacturerVehicles.Orchestration.Services;
 using MediatR;
@@ -36,16 +37,27 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 
 				if (res.Success)
 				{
-					//modify stock
-					var requestStock = new ModifyStockItemRequest()
+                    //Delete pending 
+                    var pendingItemsOrderRequest = new DeleteOrderItemsPendingRequest()
+                    {
+                        ItemId = request.ItemId,
+                        OrderId = request.OrderId
+                    };
+
+                    var pendingItemsOrder = await _OrderInterface.DeleteOrderItemsPending(pendingItemsOrderRequest);
+
+                    //modify stock
+                    var requestStock = new ModifyStockItemRequest()
 					{
 						ItemId = request.ItemId,
-						Quantity = request.Quantity,
+						Quantity = res.QuantityRemaining,
 						IsAdd = false
 					};
 
 					var modifyStock = await _ItemInterface.ModifyStockItem(requestStock);
-				}
+
+                    
+                }
 
 				var response = _mapper.Map<DeleteItemOrderHandlerResponse>(res);
 

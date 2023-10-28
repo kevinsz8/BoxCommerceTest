@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using ManufacturerVehicles.Order.Business.Messages.Common;
 using ManufacturerVehicles.Order.DataAccess;
 using ManufacturerVehicles.Order.Models;
@@ -139,22 +140,36 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			return false;
 		}
 
-		public async Task<bool> DeleteItemOrder(DeleteItemOrderRequest request)
+		public async Task<DeleteItemOrderResponse> DeleteItemOrder(DeleteItemOrderRequest request)
 		{
 			var orderItem = await _context.OrderItems.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId && oi.ItemID == request.ItemId);
+			var response = new DeleteItemOrderResponse();
 
-			if (orderItem != null)
+            if (orderItem != null)
 			{
 				_context.OrderItems.Remove(orderItem);
                 int saveCount = await _context.SaveChangesAsync();
 
-                if (saveCount > 0)
-                    return true;
-                else
-                    return false;
+				if (saveCount > 0)
+				{
+
+                    response.QuantityRemaining = orderItem.Quantity;
+                    response.Success = true;
+					
+                }
+				else
+				{
+                    response.Success = false;
+                    response.QuantityRemaining = 0;
+                }
+            }
+			else
+			{
+                response.Success = false;
+                response.QuantityRemaining = 0;
             }
 
-			return false;
+            return response;
 		}
 
         public async Task<GetOrderItemByOrderIdResponse> GetOrderItemsByOrderId(GetOrderItemByOrderIdRequest request)
@@ -166,14 +181,16 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			{
 				response.OrderItems = await (from o in _context.Orders
 								  join oi in _context.OrderItems on o.OrderID equals oi.OrderID
-								  where o.OrderID == request.OrderId
+                                  join oip in _context.OrderItemsPending on new { oi.OrderID, oi.ItemID } equals new { oip.OrderID, oip.ItemID } into joinedOip
+                                  from oip in joinedOip.DefaultIfEmpty()
+                                  where o.OrderID == request.OrderId
 								  select new OrderItems
 								  {
 									  OrderID = o.OrderID,
 									  ItemID = oi.ItemID,
 									  Price = oi.Price,
-									  Quantity = oi.Quantity,
-								  }).ToListAsync();
+									  Quantity = oi.Quantity + (oip != null ? oip.Quantity : 0)
+                                  }).ToListAsync();
 
 				response.Success = true;
 			}
@@ -238,6 +255,66 @@ namespace ManufacturerVehicles.Order.ServiceClients
         public async Task<CancelOrderResponse> CancelOrder(CancelOrderRequest request)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<AddOrderItemsPendingResponse> AddOrderItemsPending(AddOrderItemsPendingRequest request)
+        {
+            var orderItem = await _context.OrderItems.Where(oi => oi.OrderID == request.OrderId && oi.ItemID == request.ItemId).ToListAsync();
+
+            var orderItemsPending = new OrderItemsPending()
+            {
+                OrderID = request.OrderId,
+                ItemID = request.ItemId,
+                Quantity = request.Quantity,
+                Status = request.Status
+            };
+
+            await _context.OrderItemsPending.AddAsync(orderItemsPending);
+            int savedCount = await _context.SaveChangesAsync();
+
+            var response = new AddOrderItemsPendingResponse();
+
+            if (savedCount > 0)
+            {
+                response.StatusMessage = "Item Pending Added!";
+                response.Success = true;
+            }
+            else
+            {
+                response.ErrorMessage = "Item Pending not added!";
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DeleteOrderItemsPendingResponse> DeleteOrderItemsPending(DeleteOrderItemsPendingRequest request)
+        {
+            var orderItemsPending = await _context.OrderItemsPending.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId && oi.ItemID == request.ItemId);
+			var response = new DeleteOrderItemsPendingResponse();
+
+            if (orderItemsPending != null)
+			{
+                _context.OrderItemsPending.Remove(orderItemsPending);
+                int savedCount = await _context.SaveChangesAsync();
+
+                if (savedCount > 0)
+                {
+                    response.StatusMessage = "Item Removed From Pending!";
+                    response.Success = true;
+					response.QuantityPending = orderItemsPending.Quantity;
+                }
+                else
+                {
+                    response.ErrorMessage = "Item Pending not removed added!";
+                    response.Success = false;
+					response.QuantityPending = 0;
+                }
+            }
+
+			return response;
+
+
         }
     }
 }

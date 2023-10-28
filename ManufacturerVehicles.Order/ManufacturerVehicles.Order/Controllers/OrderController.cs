@@ -2,6 +2,8 @@
 using ManufacturerVehicles.Order.Business.Messages.Command.Response;
 using ManufacturerVehicles.Order.Business.Messages.Query.Request;
 using ManufacturerVehicles.Order.Business.Messages.Query.Response;
+using ManufacturerVehicles.Order.ServiceClients.Messages.Request;
+using ManufacturerVehicles.Order.ServiceClients.Messages.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -73,6 +75,23 @@ namespace ManufacturerVehicles.Order.Controllers
         [ProducesResponseType(typeof(ConfirmOrderHandlerResponse), 200)]
         public async Task<ConfirmOrderHandlerResponse> ConfirmOrder([FromBody] ConfirmOrderHandlerRequest request)
         {
+            return await _mediator.Send(request);
+        }
+
+        [HttpPost]
+        [Route("addOrderItemPending")]
+        [ProducesResponseType(typeof(AddOrderItemsPendingHandlerResponse), 200)]
+        public async Task<AddOrderItemsPendingHandlerResponse> AddOrderItemsPending([FromBody] AddOrderItemsPendingHandlerRequest request)
+        {
+            return await _mediator.Send(request);
+        }
+
+        [HttpDelete]
+        [Route("deleteOrderItemPending/{orderId}/{itemId}")]
+        [ProducesResponseType(typeof(DeleteOrderItemsPendingHandlerResponse), 200)]
+        public async Task<DeleteOrderItemsPendingHandlerResponse> DeleteOrderItemsPending(Guid orderId, Guid itemId)
+        {
+            var request = new DeleteOrderItemsPendingHandlerRequest() { OrderId = orderId, ItemId = itemId };
             return await _mediator.Send(request);
         }
 
