@@ -207,6 +207,7 @@ namespace ManufacturerVehicles.Order.ServiceClients
         {
             var order = await _context.Orders.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
             var orderItem = await _context.OrderItems.Where(oi => oi.OrderID == request.OrderId).ToListAsync();
+            var orderItemsPending = await _context.OrderItemsPending.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
 
             var response = new ConfirmOrderResponse();
 
@@ -221,10 +222,20 @@ namespace ManufacturerVehicles.Order.ServiceClients
 					order.TotalPrice = totalPrice;
                     order.Status = OrderStatus.Confirmed.ToString();
 
+					//Update Order
                     _context.Orders.Update(order);
+
+					//Update Order Items Pending
+					if (orderItemsPending != null)
+					{
+						orderItemsPending.Status = OrderStatus.InProduction.ToString();
+                        _context.OrderItemsPending.Update(orderItemsPending);
+                    }
+
                     int saveCount = await _context.SaveChangesAsync();
 
-					if (saveCount > 0)
+
+                    if (saveCount > 0)
 					{
                         response.Success = true;
                         response.StatusMessage = "Your order: " + request.OrderId + " is confirmed in our system! We will notify you of any changes on your order.";

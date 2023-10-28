@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ManufacturerVehicles.Communication.DataAccess\ManufacturerVehicles.Communication.DataAccess.csproj" />
     <ProjectReference Include="..\ManufacturerVehicles.Communication.Services\ManufacturerVehicles.Communication.Services.csproj" />
   </ItemGroup>
 

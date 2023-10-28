@@ -1,50 +1,60 @@
 ﻿using BoxSendNotification;
-using BoxSendNotification.DataAccess;
 using BoxSendNotification.Models;
+using BoxSendNotification.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
-using System.Net;
 using System.Text;
-using System.Timers;
+using System.Threading.Tasks;
 
 class Program
 {
-    private static ConnectionFactory factory = new ConnectionFactory
-    {
-        HostName = "localhost"
-    };
-
-    private static IConnection connection = factory.CreateConnection();
-    private static IModel channel = connection.CreateModel();
-    private static System.Timers.Timer timer = new System.Timers.Timer(5000);
-
-    
+    private static IConnection connection;
+    private static IModel channel;
+    private static System.Timers.Timer timer;
 
     static async Task Main(string[] args)
     {
+        InitializeRabbitMQ();
 
-        channel.QueueDeclare("orders", exclusive: false);
 
         var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (model, eventArgs) =>
-        {
-            var body = eventArgs.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
-            Console.WriteLine($"Order message received: {message}");
-            ActionNotification actionNotification = JsonConvert.DeserializeObject<ActionNotification>(message);
-        };
+        consumer.Received += async (model, eventArgs) =>
+            {
+                var body = eventArgs.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                Console.WriteLine($"Order message received: {message}");
+
+                var actionNotification = JsonConvert.DeserializeObject<ActionNotification>(message);
+                var notification = new ConfirmOrder();
+                var confirmOrder = await notification.ConfirmOrderAsync(actionNotification);
+
+
+                Console.WriteLine("Notification " + confirmOrder);
+
+            };
 
         channel.BasicConsume(queue: "orders", autoAck: true, consumer: consumer);
 
-
         await MessageCheckAsync();
+
 
         Console.ReadKey();
     }
 
+    private static void InitializeRabbitMQ()
+    {
+        var factory = new ConnectionFactory
+        {
+            HostName = "localhost"
+        };
+
+        connection = factory.CreateConnection();
+        channel = connection.CreateModel();
+        channel.QueueDeclare("orders", exclusive: false);
+    }
 
     private static async Task MessageCheckAsync()
     {
@@ -59,8 +69,7 @@ class Program
                 Console.WriteLine("No messages in the queue.");
             }
 
-
-            await Task.Delay(5000); 
+            await Task.Delay(1000);
         }
     }
 }

@@ -1,13 +1,10 @@
-﻿using Azure.Core;
-using ManufacturerVehicles.Communication.Business.Messages.Query.Request;
-using ManufacturerVehicles.Communication.DataAccess;
+﻿using ManufacturerVehicles.Communication.Business.Messages.Query.Request;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ManufacturerVehicles.Communication.Controllers
 {
-	[ApiController]
+    [ApiController]
 	[Route("[controller]")]
 	public class CustomerController : ControllerBase
 	{

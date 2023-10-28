@@ -11,9 +11,10 @@ namespace ManufacturerVehicles.Order.Models
 		New = 0,
 		Confirmed = 1,
 		InProduction = 2,
-		Completed = 3,
+		ProductionCompleted = 3,
         Delivering = 4,
-        Canceled = 5
+        ReadyToPickUp = 5,
+        Canceled = 6
 
-	}
+    }
 }

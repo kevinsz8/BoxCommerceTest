@@ -8,12 +8,13 @@ namespace ManufacturerVehicles.Orchestration.Business.Messages.Common
 {
 	public enum OrderStatus
 	{
-		New = 0,
-		Placed = 1,
-		InProduction = 2,
-		OnHold = 3,
-		Completed = 4,
-		Canceled = 5
+        New = 0,
+        Confirmed = 1,
+        InProduction = 2,
+        ProductionCompleted = 3,
+        Delivering = 4,
+        ReadyToPickUp = 5,
+        Canceled = 6
 
-	}
+    }
 }

@@ -1,6 +1,8 @@
 $(document).ready(function () {
-    $('#create-order-spinner').removeClass('d-none');
     
+
+    $('#create-order-spinner').removeClass('d-none');
+
     $.ajax({
         url: 'https://localhost:7072/Item/getItems',
         type: 'GET',
@@ -29,4 +31,8 @@ $(document).ready(function () {
             console.error('Error fetching data:', error);
         }
     });
+});
+
+$("#btnLogin").on("click", function () {
+    window.location.href = "CreateOrders.html?CustomerId=" + "B3114104-0464-427D-8217-99D5C9E266BE";
 });

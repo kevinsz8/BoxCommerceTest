@@ -23,12 +23,21 @@ function populateOrderTable() {
                 $.each(data.orders, function (index, order) {
                     // Creating edit button 
                     var editButton = $("<button>")
-                    .text("Edit")
-                    .addClass("btn btn-primary")
+                    .addClass("btn")
+                    .addClass(order.status === "New" ? "btn-primary" : "btn-info")
+                    .text(order.status === "New" ? "Edit" : "View")
                     .on("click", function () {
                         
                         $("#OrderId").val(order.orderID);
                         $("#CustomerId").val(order.customerID);
+                        $("#OrderStatus").val(order.status);
+
+                        if (order.status !== "New") {
+                            $("#itemDropdown").prop("disabled", true);
+                            $("#quantity").prop("disabled", true);
+                            $("#addItemBtn").prop("disabled", true);
+                            $("#confirmOrderBtn").prop("disabled", true);
+                        }
                         
                         populateOrderItemsTable(order.orderID);
                         
@@ -128,6 +137,18 @@ $("#addItemBtn").on("click", function () {
     var quantity = parseInt($("#quantity").val());
     var selectedPrice = parseFloat($("#itemDropdown option:selected").data('price')).toFixed(2);
 
+    if (!selectedItemId) {
+        alert("Please select a valid item from the dropdown.");
+        $('#add-item-order-spinner').addClass('d-none');
+        return false;
+    }
+
+    if (isNaN(quantity) || quantity < 1){
+        alert("Please enter a valid quantity greater than 0.");
+        $('#add-item-order-spinner').addClass('d-none');
+        return false;
+    }
+
     $.ajax({
         type: "POST",
         url: "https://localhost:7072/Order/addItemOrder",
@@ -165,6 +186,7 @@ $("#addItemBtn").on("click", function () {
 function populateOrderItemsTable() {
     $('#add-item-order-spinner').removeClass('d-none');
     var orderId = $("#OrderId").val();
+    var orderStatus = $("#OrderStatus").val();
     $.get("https://localhost:7072/Order/getOrderItems/"+ orderId)
     .done(function (data) {
         if (data.success) {
@@ -177,6 +199,11 @@ function populateOrderItemsTable() {
                     .addClass("btn btn-danger delete-item")
                     .data("itemId", orderItem.itemID)
                     .data("quantity", orderItem.quantity);
+                    deleteButton.attr("id", "btnDelete"+orderItem.orderID);
+
+                    if (orderStatus !== "New") {
+                        deleteButton.attr("disabled", "disabled");
+                    }
 
                     var actionColumn = $("<p>").append(deleteButton);
 
@@ -295,3 +322,31 @@ $("#item-table-body").on("click", ".delete-item", function () {
         });
     }
 });
+
+
+
+
+$(document).ready(function () {
+const urlParams = new URLSearchParams(window.location.search);
+        const customerId = urlParams.get("CustomerId");
+
+        if (!customerId || customerId.trim() === "") {
+            window.location.href = "login.html";
+        } else {
+            $("#CustomerId").val(customerId);
+        }
+
+        $('#create-order-spinner').addClass('d-none');
+        $('#add-item-order-spinner').addClass('d-none');
+        populateCustomerDropdown();
+
+
+        populateOrderTable();
+
+        fillItemDropdown();
+        $("#create-order-btn").on("click", function () {
+            $('#create-order-spinner').removeClass('d-none');
+            var selectedCustomerId = $("#customer-dropdown").val();
+            createOrder(selectedCustomerId);
+        });
+    });

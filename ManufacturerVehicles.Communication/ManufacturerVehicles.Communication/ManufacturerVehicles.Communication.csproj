@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ManufacturerVehicles.Communication.Business\ManufacturerVehicles.Communication.Business.csproj" />
-    <ProjectReference Include="..\ManufacturerVehicles.Communication.DataAccess\ManufacturerVehicles.Communication.DataAccess.csproj" />
     <ProjectReference Include="..\ManufacturerVehicles.Communication.ServiceClients\ManufacturerVehicles.Communication.ServiceClients.csproj" />
   </ItemGroup>
 

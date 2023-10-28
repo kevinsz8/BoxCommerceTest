@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <title>Items List</title>
 
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="#">My App</a>
@@ -30,21 +32,21 @@
 
     <div class="container">
         <h3>Create Order</h3>
-    <form id="order-form">
-        <div class="form-group">
-            <label for="customer-dropdown">Select Customer:</label>
-            <select class="form-control" id="customer-dropdown">
-                
-                <!-- Options will be populated dynamically -->
-            </select>
-        </div>
-        <button type="button" class="btn btn-primary" id="create-order-btn">Create Order</button>
-        <div class="text-center" id="create-order-spinner">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Creating Order...</span>
+        <form id="order-form">
+            <div class="form-group">
+                <input type="hidden" name="CustomerId" id="CustomerId" />
+                <label for="customer-dropdown">Select Customer:</label>
+                <select class="form-control" id="customer-dropdown">
+
+                </select>
             </div>
-        </div>
-    </form>
+            <button type="button" class="btn btn-primary" id="create-order-btn">Create Order</button>
+            <div class="text-center" id="create-order-spinner">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Creating Order...</span>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="container mt-5">
@@ -61,7 +63,7 @@
                 </tr>
             </thead>
             <tbody id="order-table-body">
-                
+
             </tbody>
         </table>
         <div class="text-center" id="table-spinner">
@@ -78,6 +80,7 @@
                     <h5 class="modal-title" id="itemModalLabel">Order Items</h5>
                     <input type="hidden" name="OrderId" id="OrderId" />
                     <input type="hidden" name="CustomerId" id="CustomerId" />
+                    <input type="hidden" name="OrderStatus" id="OrderStatus" />
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -96,18 +99,20 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="quantity">Quantity:</label>
-                                    <input type="number" name="quantity" id="quantity" class="form-control" />
+                                    <input type="number" name="quantity" id="quantity" class="form-control" min="1"
+                                        required />
                                 </div>
-                                
+
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary" id="addItemBtn" style="margin-top: 20%;">Add Item</button>
+                                    <button type="button" class="btn btn-primary" id="addItemBtn"
+                                        style="margin-top: 20%;">Add Item</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="container mt-5">
                         <h3>Items</h3>
                         <table class="table table-striped" id="OrderItems">
@@ -134,12 +139,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="confirmOrderBtn">Place Order</button>
+                    <button type="button" class="btn btn-primary" id="confirmOrderBtn">Confirm Order</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -147,20 +152,7 @@
     <script src="styles.css"></script>
     <script>
         
-        
-        $('#create-order-spinner').addClass('d-none');
-        $('#add-item-order-spinner').addClass('d-none');
-        populateCustomerDropdown();
-        
-
-        populateOrderTable();
-
-        fillItemDropdown();
-        $("#create-order-btn").on("click", function () {
-            $('#create-order-spinner').removeClass('d-none');
-            var selectedCustomerId = $("#customer-dropdown").val();
-            createOrder(selectedCustomerId);
-        });
     </script>
 </body>
+
 </html>

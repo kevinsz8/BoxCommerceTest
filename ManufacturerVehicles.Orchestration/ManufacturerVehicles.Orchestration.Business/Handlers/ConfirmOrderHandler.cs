@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ManufacturerVehicles.Orchestration.Business.Messages.Command.Request;
 using ManufacturerVehicles.Orchestration.Business.Messages.Command.Response;
+using ManufacturerVehicles.Orchestration.Business.Messages.Common;
 using ManufacturerVehicles.Orchestration.ServiceClients.Messages.Request;
 using ManufacturerVehicles.Orchestration.Services;
 using MediatR;
@@ -16,11 +17,13 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
     public class ConfirmOrderHandler : IRequestHandler<ConfirmOrderHandlerRequest, ConfirmOrderHandlerResponse>
     {
         private readonly IOrderInterface _OrderInterface;
+        private readonly ICommunicationInterface _CommunicationInterface;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        public ConfirmOrderHandler(IOrderInterface OrderInterface, IMapper mapper, ILogger<ConfirmOrderHandler> logger)
+        public ConfirmOrderHandler(IOrderInterface OrderInterface, ICommunicationInterface CommunicationInterface, IMapper mapper, ILogger<ConfirmOrderHandler> logger)
         {
             _OrderInterface = OrderInterface;
+            _CommunicationInterface = CommunicationInterface;
             _mapper = mapper;
             _logger = logger;
         }
@@ -31,6 +34,17 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
             {
                 var requestI = _mapper.Map<ConfirmOrderRequest>(request);
                 var res = await _OrderInterface.ConfirmOrder(requestI);
+
+                if (res.Success)
+                {
+                    var sendCustomerNotificationRequest = new SendCustomerNotificationRequest()
+                    {
+                        OrderId = request.OrderId,
+                        Action = OrderStatus.Confirmed.ToString() 
+                    };
+
+                    await _CommunicationInterface.SendCustomerNotification(sendCustomerNotificationRequest);
+                }
 
                 var response = _mapper.Map<ConfirmOrderHandlerResponse>(res);
 
