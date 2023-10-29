@@ -1,13 +1,13 @@
-﻿using ManufacturerVehicles.Order.Business.Messages.Common;
+﻿using ManufacturerVehicles.Orchestration.Business.Messages.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManufacturerVehicles.Order.Business.Messages.Command.Response
+namespace ManufacturerVehicles.Orchestration.ServiceClients.Messages.Response
 {
-    public class CancelOrderHandlerResponse : BaseResponse
+    public class CancelOrderResponse : BaseResponse
     {
         public Guid OrderId { get; set; }
         public List<OrderItems> OrderItems { get; set; }

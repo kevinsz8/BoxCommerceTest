@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ManufacturerVehicles.Orchestration.ServiceClients.Messages.Response
 {
-    public class ConfirmOrderResponse : BaseResponse
+    public class GetOrderItemsPendingByOrderIdResponse : BaseResponse
     {
-        public Guid OrderId { get; set; }
-        public bool SendNotification { get; set; }
-        public List<OrderItems> OrderItems { get; set; }
+        public List<OrderItemsPendings> OrderItems { get; set; }
     }
 }

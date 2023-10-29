@@ -38,6 +38,7 @@ namespace ManufacturerVehicles.Order.Business.Handlers
                     response.StatusMessage = ordersResponse.StatusMessage;
                     response.OrderId = request.OrderId;
                     response.SendNotification = true;
+                    response.OrderItems = ordersResponse.OrderItems;
                     response.Success = true;
                 }
                 else

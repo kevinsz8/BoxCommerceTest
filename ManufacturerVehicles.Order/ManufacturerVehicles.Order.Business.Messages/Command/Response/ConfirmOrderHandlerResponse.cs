@@ -11,5 +11,6 @@ namespace ManufacturerVehicles.Order.Business.Messages.Command.Response
     {
         public Guid OrderId { get; set; }
         public bool SendNotification { get; set; }
+        public List<OrderItems> OrderItems { get; set; }
     }
 }

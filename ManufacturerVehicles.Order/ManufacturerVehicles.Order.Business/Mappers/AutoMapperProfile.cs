@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ManufacturerVehicles.Order.Business.Messages.Command.Request;
+using ManufacturerVehicles.Order.Business.Messages.Command.Response;
 using ManufacturerVehicles.Order.Business.Messages.Common;
 using ManufacturerVehicles.Order.Business.Messages.Query.Request;
 using ManufacturerVehicles.Order.Business.Messages.Query.Response;
@@ -31,6 +32,14 @@ namespace ManufacturerVehicles.Order.Business.Mappers
             CreateMap<AddOrderItemsPendingHandlerRequest, AddOrderItemsPendingRequest>();
 
             CreateMap<DeleteOrderItemsPendingHandlerRequest, DeleteOrderItemsPendingRequest>();
+
+            CreateMap<CancelOrderHandlerRequest, CancelOrderRequest>();
+            CreateMap<CancelOrderResponse, CancelOrderHandlerResponse>();
+
+            CreateMap<GetOrderItemsPendingByOrderIdHandlerRequest, GetOrderItemsPendingByOrderIdRequest>();
+            CreateMap<GetOrderItemsPendingByOrderIdResponse, GetOrderItemsPendingByOrderIdHandlerResponse>();
+
+
         }
-	}
+    }
 }

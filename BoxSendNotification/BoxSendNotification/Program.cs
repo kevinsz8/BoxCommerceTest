@@ -28,11 +28,17 @@ class Program
                 Console.WriteLine($"Order message received: {message}");
 
                 var actionNotification = JsonConvert.DeserializeObject<ActionNotification>(message);
-                var notification = new ConfirmOrder();
-                var confirmOrder = await notification.ConfirmOrderAsync(actionNotification);
 
+                if(actionNotification != null)
+                {
 
-                Console.WriteLine("Notification " + confirmOrder);
+                        var notification = new NotificationOrder();
+                        var notificationOrder = await notification.NotificationOrderAsync(actionNotification);
+                        Console.WriteLine("Notification " + notificationOrder);
+
+                }
+                
+                
 
             };
 

@@ -10,7 +10,7 @@ namespace BoxSendNotification.Services
 {
     public class SendEmailService
     {
-        public async Task SendEmailNotification(string bodyMessage, string Email)
+        public async Task SendEmailNotification(string bodyMessage, string Email, string Subject)
         {
             
             string fromAddress = "kevinsz2805@gmail.com";
@@ -18,7 +18,7 @@ namespace BoxSendNotification.Services
             MailMessage mail = new MailMessage
             {
                 From = new MailAddress(fromAddress),
-                Subject = "Order Confirmation",
+                Subject = Subject,
                 Body = bodyMessage,
                 IsBodyHtml = true
             };

@@ -84,5 +84,16 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
             return await _httpService.DeleteAsync<DeleteOrderItemsPendingRequest, DeleteOrderItemsPendingResponse>(url, request);
         }
 
+        public async Task<CancelOrderResponse> CancelOrder(CancelOrderRequest request)
+        {
+            var url = _options.CancelOrderEndpoint;
+            return await _httpService.PostAsync<CancelOrderRequest, CancelOrderResponse>(url, request);
+        }
+
+        public async Task<GetOrderItemsPendingByOrderIdResponse> GetOrderItemsPendingByOrderId(GetOrderItemsPendingByOrderIdRequest request)
+        {
+            var url = _options.GetOrderItemsPendingByOrderIdEndpoint.Replace("{orderId}", request.OrderId.ToString());
+            return await _httpService.GetAsync<GetOrderItemsPendingByOrderIdResponse>(url);
+        }
     }
 }

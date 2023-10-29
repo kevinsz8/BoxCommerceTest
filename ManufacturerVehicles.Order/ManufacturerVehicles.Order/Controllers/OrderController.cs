@@ -102,5 +102,14 @@ namespace ManufacturerVehicles.Order.Controllers
         {
             return await _mediator.Send(request);
         }
+
+        [HttpGet]
+        [Route("getOrderItemsPending/{orderId}")]
+        [ProducesResponseType(typeof(GetOrderItemsPendingByOrderIdHandlerResponse), 200)]
+        public async Task<GetOrderItemsPendingByOrderIdHandlerResponse> GetOrderItemsPendingByOrderId([FromRoute] Guid orderId)
+        {
+            var request = new GetOrderItemsPendingByOrderIdHandlerRequest() { OrderId = orderId };
+            return await _mediator.Send(request);
+        }
     }
 }

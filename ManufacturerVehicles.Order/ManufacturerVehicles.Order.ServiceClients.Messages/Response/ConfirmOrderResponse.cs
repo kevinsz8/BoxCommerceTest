@@ -9,5 +9,6 @@ namespace ManufacturerVehicles.Order.ServiceClients.Messages.Response
 {
     public class ConfirmOrderResponse : BaseResponse
     {
+        public List<OrderItems> OrderItems { get; set; }
     }
 }

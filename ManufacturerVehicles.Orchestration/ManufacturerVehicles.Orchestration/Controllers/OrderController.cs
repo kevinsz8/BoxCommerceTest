@@ -83,5 +83,13 @@ namespace ManufacturerVehicles.Orchestration.Controllers
         {
             return await _mediator.Send(request);
         }
+
+        [HttpPost]
+        [Route("cancelOrder")]
+        [ProducesResponseType(typeof(CancelOrderHandlerResponse), 200)]
+        public async Task<CancelOrderHandlerResponse> CancelOrder([FromBody] CancelOrderHandlerRequest request)
+        {
+            return await _mediator.Send(request);
+        }
     }
 }

@@ -19,5 +19,7 @@ namespace ManufacturerVehicles.Orchestration.Services
         Task<ConfirmOrderResponse> ConfirmOrder(ConfirmOrderRequest request);
         Task<AddOrderItemsPendingResponse> AddOrderItemsPending(AddOrderItemsPendingRequest request);
         Task<DeleteOrderItemsPendingResponse> DeleteOrderItemsPending(DeleteOrderItemsPendingRequest request);
+		Task<CancelOrderResponse> CancelOrder(CancelOrderRequest request);
+        Task<GetOrderItemsPendingByOrderIdResponse> GetOrderItemsPendingByOrderId(GetOrderItemsPendingByOrderIdRequest request);
     }
 }

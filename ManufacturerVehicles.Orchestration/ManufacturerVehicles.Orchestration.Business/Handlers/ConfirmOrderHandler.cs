@@ -18,12 +18,14 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
     {
         private readonly IOrderInterface _OrderInterface;
         private readonly ICommunicationInterface _CommunicationInterface;
+        private readonly IItemInterface _ItemInterface;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        public ConfirmOrderHandler(IOrderInterface OrderInterface, ICommunicationInterface CommunicationInterface, IMapper mapper, ILogger<ConfirmOrderHandler> logger)
+        public ConfirmOrderHandler(IOrderInterface OrderInterface, ICommunicationInterface CommunicationInterface, IItemInterface ItemInterface, IMapper mapper, ILogger<ConfirmOrderHandler> logger)
         {
             _OrderInterface = OrderInterface;
             _CommunicationInterface = CommunicationInterface;
+            _ItemInterface = ItemInterface;
             _mapper = mapper;
             _logger = logger;
         }
@@ -37,6 +39,37 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 
                 if (res.Success)
                 {
+                    foreach (var item in res.OrderItems)
+                    {
+                        //modify stock
+                        var requestStock = new ModifyStockItemRequest()
+                        {
+                            ItemId = item.ItemID,
+                            Quantity = item.Quantity,
+                            IsAdd = true
+                        };
+
+                        var modifyStock = await _ItemInterface.ModifyStockItem(requestStock);
+                        if (modifyStock.Success)
+                        {
+                            if (modifyStock.RemainingQuantity > 0)
+                            {
+                                modifyStock.StatusMessage = modifyStock.StatusMessage;
+
+                                var pendingItemsOrderRequest = new AddOrderItemsPendingRequest()
+                                {
+                                    ItemId = item.ItemID,
+                                    OrderId = request.OrderId,
+                                    Quantity = modifyStock.RemainingQuantity,
+                                    Status = OrderStatus.InProduction.ToString()
+                                };
+
+                                var pendingItemsOrder = await _OrderInterface.AddOrderItemsPending(pendingItemsOrderRequest);
+
+                            }
+                        }
+                    }
+
                     var sendCustomerNotificationRequest = new SendCustomerNotificationRequest()
                     {
                         OrderId = request.OrderId,

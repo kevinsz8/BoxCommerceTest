@@ -35,30 +35,6 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 				var requestI = _mapper.Map<DeleteItemOrderRequest>(request);
 				var res = await _OrderInterface.DeleteItemOrder(requestI);
 
-				if (res.Success)
-				{
-                    //Delete pending 
-                    var pendingItemsOrderRequest = new DeleteOrderItemsPendingRequest()
-                    {
-                        ItemId = request.ItemId,
-                        OrderId = request.OrderId
-                    };
-
-                    var pendingItemsOrder = await _OrderInterface.DeleteOrderItemsPending(pendingItemsOrderRequest);
-
-                    //modify stock
-                    var requestStock = new ModifyStockItemRequest()
-					{
-						ItemId = request.ItemId,
-						Quantity = res.QuantityRemaining,
-						IsAdd = false
-					};
-
-					var modifyStock = await _ItemInterface.ModifyStockItem(requestStock);
-
-                    
-                }
-
 				var response = _mapper.Map<DeleteItemOrderHandlerResponse>(res);
 
 				return response;

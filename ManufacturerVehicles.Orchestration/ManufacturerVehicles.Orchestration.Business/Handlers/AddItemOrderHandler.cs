@@ -34,36 +34,6 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
 			{
 				var requestI = _mapper.Map<AddItemOrderRequest>(request);
 
-                //modify stock
-                var requestStock = new ModifyStockItemRequest()
-                {
-                    ItemId = request.ItemId,
-                    Quantity = request.Quantity,
-                    IsAdd = true
-                };
-
-                var modifyStock = await _ItemInterface.ModifyStockItem(requestStock);
-                if (modifyStock.Success)
-                {
-                    if (modifyStock.RemainingQuantity > 0)
-                    {
-                        modifyStock.StatusMessage = modifyStock.StatusMessage;
-
-                        var pendingItemsOrderRequest = new AddOrderItemsPendingRequest()
-                        {
-                            ItemId = request.ItemId,
-                            OrderId = request.OrderId,
-                            Quantity = modifyStock.RemainingQuantity,
-                            Status = OrderStatus.New.ToString()
-                        };
-
-                        var pendingItemsOrder = await _OrderInterface.AddOrderItemsPending(pendingItemsOrderRequest);
-
-                        int quantityRemaining = Math.Max(0, requestI.Quantity - modifyStock.RemainingQuantity);
-						requestI.Quantity = quantityRemaining;
-                    }
-                }
-
                 //Add item to order
                 var res = await _OrderInterface.AddItemsOrder(requestI);
                 var response = _mapper.Map<AddItemOrderHandlerResponse>(res);

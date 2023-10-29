@@ -35,6 +35,9 @@ namespace ManufacturerVehicles.Orchestration.Business.Mappers
 
             CreateMap<ConfirmOrderHandlerRequest, ConfirmOrderRequest>();
             CreateMap<ConfirmOrderResponse, ConfirmOrderHandlerResponse>();
+
+            CreateMap<CancelOrderHandlerRequest, CancelOrderRequest>();
+            CreateMap<CancelOrderResponse, CancelOrderHandlerResponse>();
         }
 	}
 }

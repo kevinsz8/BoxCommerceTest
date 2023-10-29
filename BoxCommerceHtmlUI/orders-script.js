@@ -44,6 +44,21 @@ function populateOrderTable() {
                         $("#itemModal").modal("show");
                     });
 
+                    var cancelButton = $("<button title='Cancel Order'>")
+                    .text("Cancel Order")
+                    .addClass("btn btn-danger delete-item")
+                    .data("orderId", order.orderID)
+                    .prop("hidden", order.status !== "New" && order.status !== "ReadyToPickUp" && order.status !== "Canceled" ? false : true)
+                    .on("click", function () {
+                        var confirmCancel = confirm("Are you sure you want to cancel this order?");
+
+                        if (confirmCancel) 
+                        {
+                            CancelOrder(order.orderID);
+                        }
+                    });
+                    
+
                     var actionColumn = $("<p>").append(editButton);
 
                     var formattedTotalPrice = parseFloat(order.totalPrice).toLocaleString("en-US", {
@@ -65,6 +80,7 @@ function populateOrderTable() {
                     </tr>`
                 );
                 orderTableBody.find('tr:last td:last').append(actionColumn);
+                orderTableBody.find('tr:last td:last').append(cancelButton);
             });
         }
     })
@@ -101,6 +117,40 @@ function createOrder(customerId) {
         }
     });
 }
+
+function CancelOrder(orderId) {
+    $('#table-spinner').removeClass('d-none'); 
+    var orderData = {
+        orderId: orderId
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:7072/Order/cancelOrder",
+        contentType: "application/json",
+        data: JSON.stringify(orderData),
+        success: function (response) {
+            if (response.success) {
+                alert("Order cancel successfully.");
+                $("#OrderId").val(response.orderId);
+                $("#CustomerId").val(response.customerId);
+                populateOrderTable(); 
+                
+            }
+            else
+            {
+                alert(response.statusMessage + " " + response.errorMessage);
+            }
+
+            $('#table-spinner').addClass('d-none');
+        },
+        error: function (error) {
+            alert("Failed to create the order.");
+            $('#table-spinner').addClass('d-none');
+        }
+    });
+}
+
 
 function fillItemDropdown() {
     $.get("https://localhost:7072/Item/getItems", function (data) {
@@ -338,7 +388,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
         $('#create-order-spinner').addClass('d-none');
         $('#add-item-order-spinner').addClass('d-none');
-        populateCustomerDropdown();
+        //populateCustomerDropdown();
 
 
         populateOrderTable();
@@ -346,7 +396,7 @@ const urlParams = new URLSearchParams(window.location.search);
         fillItemDropdown();
         $("#create-order-btn").on("click", function () {
             $('#create-order-spinner').removeClass('d-none');
-            var selectedCustomerId = $("#customer-dropdown").val();
+            var selectedCustomerId = $("#CustomerId").val();
             createOrder(selectedCustomerId);
         });
     });

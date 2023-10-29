@@ -33,6 +33,3 @@ $(document).ready(function () {
     });
 });
 
-$("#btnLogin").on("click", function () {
-    window.location.href = "CreateOrders.html?CustomerId=" + "B3114104-0464-427D-8217-99D5C9E266BE";
-});

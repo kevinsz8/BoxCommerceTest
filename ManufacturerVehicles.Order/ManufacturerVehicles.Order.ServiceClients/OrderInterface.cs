@@ -181,15 +181,13 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			{
 				response.OrderItems = await (from o in _context.Orders
 								  join oi in _context.OrderItems on o.OrderID equals oi.OrderID
-                                  join oip in _context.OrderItemsPending on new { oi.OrderID, oi.ItemID } equals new { oip.OrderID, oip.ItemID } into joinedOip
-                                  from oip in joinedOip.DefaultIfEmpty()
                                   where o.OrderID == request.OrderId
 								  select new OrderItems
 								  {
 									  OrderID = o.OrderID,
 									  ItemID = oi.ItemID,
 									  Price = oi.Price,
-									  Quantity = oi.Quantity + (oip != null ? oip.Quantity : 0)
+									  Quantity = oi.Quantity
                                   }).ToListAsync();
 
 				response.Success = true;
@@ -206,18 +204,23 @@ namespace ManufacturerVehicles.Order.ServiceClients
         public async Task<ConfirmOrderResponse> ConfirmOrder(ConfirmOrderRequest request)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
-            var orderItem = await _context.OrderItems.Where(oi => oi.OrderID == request.OrderId).ToListAsync();
-            var orderItemsPending = await _context.OrderItemsPending.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
+			var orderItems = await (from oi in _context.OrderItems
+									where oi.OrderID == request.OrderId
+									select new OrderItems
+									{
+										OrderID = oi.OrderID,
+										ItemID = oi.ItemID,
+										Price = oi.Price * oi.Quantity,
+										Quantity = oi.Quantity
+									}).ToListAsync();
 
             var response = new ConfirmOrderResponse();
 
-			if (order != null && orderItem != null)
+			if (order != null)
 			{
 				if(order.Status == "New")
 				{
-                    var totalPrice = await _context.OrderItems
-					.Where(oi => oi.OrderID == request.OrderId)
-					.SumAsync(oi => oi.Price);
+                    var totalPrice = orderItems.Sum(oi => oi.Price);
 
 					order.TotalPrice = totalPrice;
                     order.Status = OrderStatus.Confirmed.ToString();
@@ -225,19 +228,13 @@ namespace ManufacturerVehicles.Order.ServiceClients
 					//Update Order
                     _context.Orders.Update(order);
 
-					//Update Order Items Pending
-					if (orderItemsPending != null)
-					{
-						orderItemsPending.Status = OrderStatus.InProduction.ToString();
-                        _context.OrderItemsPending.Update(orderItemsPending);
-                    }
-
                     int saveCount = await _context.SaveChangesAsync();
 
 
                     if (saveCount > 0)
 					{
                         response.Success = true;
+						response.OrderItems = orderItems;
                         response.StatusMessage = "Your order: " + request.OrderId + " is confirmed in our system! We will notify you of any changes on your order.";
                     }
 					else
@@ -263,10 +260,60 @@ namespace ManufacturerVehicles.Order.ServiceClients
             return response;
         }
 
-        public async Task<CancelOrderResponse> CancelOrder(CancelOrderRequest request)
-        {
-            throw new NotImplementedException();
-        }
+		public async Task<CancelOrderResponse> CancelOrder(CancelOrderRequest request)
+		{
+			var order = await _context.Orders.FirstOrDefaultAsync(oi => oi.OrderID == request.OrderId);
+
+			var response = new CancelOrderResponse();
+
+			if (order != null)
+			{
+				if (order.Status != "ReadyToPickUp")
+				{
+                    order.Status = OrderStatus.Canceled.ToString();
+
+                    //Update Order
+                    _context.Orders.Update(order);
+
+                    int saveCount = await _context.SaveChangesAsync();
+
+
+                    if (saveCount > 0)
+                    {
+                        response.Success = true;
+                        response.StatusMessage = "Your order: " + request.OrderId + " has been cancelled!";
+                        response.OrderItems = await (from oi in _context.OrderItems
+                                                     where oi.OrderID == request.OrderId
+                                                     select new OrderItems
+                                                     {
+                                                         OrderID = oi.OrderID,
+                                                         ItemID = oi.ItemID,
+                                                         Price = oi.Price,
+                                                         Quantity = oi.Quantity
+                                                     }).ToListAsync();
+                    }
+                    else
+                    {
+                        response.Success = false;
+                        response.StatusMessage = "Your order + "+ request.OrderId + " could not be cancelled!";
+                    }
+
+                    
+                }
+				else
+				{
+                    response.Success = false;
+                    response.StatusMessage = "Your order " + request.OrderId + " is on status " + order.Status + " and cannot be cancelled!";
+                }
+			}
+			else
+			{
+                response.Success = false;
+                response.StatusMessage = "Your order could not be cancelled!";
+            }
+
+			return response;
+		}
 
         public async Task<AddOrderItemsPendingResponse> AddOrderItemsPending(AddOrderItemsPendingRequest request)
         {
@@ -326,6 +373,26 @@ namespace ManufacturerVehicles.Order.ServiceClients
 			return response;
 
 
+        }
+
+        public async Task<GetOrderItemsPendingByOrderIdResponse> GetOrderItemsPendingByOrderId(GetOrderItemsPendingByOrderIdRequest request)
+        {
+            var response = new GetOrderItemsPendingByOrderIdResponse();
+
+                response.OrderItems = await (from oip in _context.OrderItemsPending
+                                             where oip.OrderID == request.OrderId
+                                             select new OrderItemsPendings
+                                             {
+                                                 OrderItemPendingID = oip.OrderItemPendingID,
+                                                 OrderID = oip.OrderID,
+                                                 ItemID = oip.ItemID,
+                                                 Quantity = oip.Quantity,
+                                                 Status = oip.Status
+                                             }).ToListAsync();
+
+                response.Success = true;
+
+            return response;
         }
     }
 }
