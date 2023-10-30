@@ -33,5 +33,12 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
             return response;
         }
 
+        public async Task<GetCustomersByIdResponse> GetCustomersById(GetCustomersByIdRequest request)
+        {
+            var url = _options.GetCustomersByIdEndpoint.Replace("{customerId}", request.CustomerId.ToString());
+            var response = await _httpService.GetAsync<GetCustomersByIdResponse>(url);
+            return response;
+        }
+
     }
 }

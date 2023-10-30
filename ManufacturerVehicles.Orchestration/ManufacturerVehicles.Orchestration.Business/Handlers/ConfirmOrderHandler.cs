@@ -61,7 +61,7 @@ namespace ManufacturerVehicles.Orchestration.Business.Handlers
                                     ItemId = item.ItemID,
                                     OrderId = request.OrderId,
                                     Quantity = modifyStock.RemainingQuantity,
-                                    Status = OrderStatus.InProduction.ToString()
+                                    Status = "InProduction"
                                 };
 
                                 var pendingItemsOrder = await _OrderInterface.AddOrderItemsPending(pendingItemsOrderRequest);

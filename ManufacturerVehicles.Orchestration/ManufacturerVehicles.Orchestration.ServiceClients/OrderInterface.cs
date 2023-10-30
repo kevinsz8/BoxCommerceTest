@@ -95,5 +95,11 @@ namespace ManufacturerVehicles.Orchestration.ServiceClients
             var url = _options.GetOrderItemsPendingByOrderIdEndpoint.Replace("{orderId}", request.OrderId.ToString());
             return await _httpService.GetAsync<GetOrderItemsPendingByOrderIdResponse>(url);
         }
+
+        public async Task<GetOrdersByCustomerIdResponse> GetOrdersByCustomerId(GetOrdersByCustomerIdRequest request)
+        {
+            var url = _options.GetOrdersByCustomerIdEndpoint.Replace("{customerId}", request.CustomerId.ToString());
+            return await _httpService.GetAsync<GetOrdersByCustomerIdResponse>(url);
+        }
     }
 }

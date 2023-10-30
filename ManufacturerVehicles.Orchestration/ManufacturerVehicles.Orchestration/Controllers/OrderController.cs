@@ -32,7 +32,16 @@ namespace ManufacturerVehicles.Orchestration.Controllers
 			return response;
 		}
 
-		[HttpPost]
+        [HttpGet]
+        [Route("customer/{customerId}")]
+        [ProducesResponseType(typeof(GetOrdersByCustomerIdHandlerResponse), 200)]
+        public async Task<GetOrdersByCustomerIdHandlerResponse> GetOrderByCustomerId([FromRoute] Guid customerId)
+        {
+            var request = new GetOrdersByCustomerIdHandlerRequest() { CustomerId = customerId };
+            return await _mediator.Send(request);
+        }
+
+        [HttpPost]
 		[Route("createOrder")]
 		[ProducesResponseType(typeof(CreateOrderHandlerResponse), 200)]
 		public async Task<CreateOrderHandlerResponse> CreateOrderHandler([FromBody] CreateOrderHandlerRequest request)

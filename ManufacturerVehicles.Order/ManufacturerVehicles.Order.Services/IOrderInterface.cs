@@ -17,5 +17,6 @@ namespace ManufacturerVehicles.Order.Services
         Task<AddOrderItemsPendingResponse> AddOrderItemsPending(AddOrderItemsPendingRequest request);
         Task<DeleteOrderItemsPendingResponse> DeleteOrderItemsPending(DeleteOrderItemsPendingRequest request);
         Task<GetOrderItemsPendingByOrderIdResponse> GetOrderItemsPendingByOrderId(GetOrderItemsPendingByOrderIdRequest request);
+        Task<GetOrdersByCustomerIdResponse> GetOrdersByCustomerId(GetOrdersByCustomerIdRequest request);
     }
 }

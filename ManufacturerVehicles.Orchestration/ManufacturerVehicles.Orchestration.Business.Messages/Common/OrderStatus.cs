@@ -10,11 +10,10 @@ namespace ManufacturerVehicles.Orchestration.Business.Messages.Common
 	{
         New = 0,
         Confirmed = 1,
-        InProduction = 2,
-        ProductionCompleted = 3,
-        Delivering = 4,
-        ReadyToPickUp = 5,
-        Canceled = 6
+        ProductionCompleted = 2,
+        Delivering = 3,
+        ReadyToPickUp = 4,
+        Canceled = 5
 
     }
 }

@@ -8,13 +8,12 @@ namespace ManufacturerVehicles.Order.Models
 {
 	public enum OrderStatus
 	{
-		New = 0,
-		Confirmed = 1,
-		InProduction = 2,
-		ProductionCompleted = 3,
-        Delivering = 4,
-        ReadyToPickUp = 5,
-        Canceled = 6
+        New = 0,
+        Confirmed = 1,
+        ProductionCompleted = 2,
+        Delivering = 3,
+        ReadyToPickUp = 4,
+        Canceled = 5
 
     }
 }

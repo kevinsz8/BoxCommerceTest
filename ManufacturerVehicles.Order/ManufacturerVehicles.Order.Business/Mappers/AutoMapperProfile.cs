@@ -39,6 +39,9 @@ namespace ManufacturerVehicles.Order.Business.Mappers
             CreateMap<GetOrderItemsPendingByOrderIdHandlerRequest, GetOrderItemsPendingByOrderIdRequest>();
             CreateMap<GetOrderItemsPendingByOrderIdResponse, GetOrderItemsPendingByOrderIdHandlerResponse>();
 
+            CreateMap<GetOrderByCustomerIdHandlerRequest, GetOrdersByCustomerIdRequest>();
+            CreateMap<GetOrdersByCustomerIdResponse, GetOrderByCustomerIdHandlerResponse>();
+
 
         }
     }

@@ -29,7 +29,16 @@ namespace ManufacturerVehicles.Order.Controllers
 			return await _mediator.Send(request);
 		}
 
-		[HttpPost]
+        [HttpGet]
+        [Route("customer/{customerId}")]
+        [ProducesResponseType(typeof(GetOrderByCustomerIdHandlerResponse), 200)]
+        public async Task<GetOrderByCustomerIdHandlerResponse> GetOrderByCustomerId([FromRoute] Guid customerId)
+        {
+            var request = new GetOrderByCustomerIdHandlerRequest() { CustomerId = customerId };
+            return await _mediator.Send(request);
+        }
+
+        [HttpPost]
 		[Route("createOrder")]
 		[ProducesResponseType(typeof(CreateOrderHandlerResponse), 200)]
 		public async Task<CreateOrderHandlerResponse> CreateOrder([FromBody] CreateOrderHandlerRequest request)

@@ -22,6 +22,8 @@ namespace ManufacturerVehicles.Orchestration.Models
 		public string SendCustomerNotificationEndpoint { get; set; }
 		public string CancelOrderEndpoint { get; set; }
 		public string GetOrderItemsPendingByOrderIdEndpoint { get; set; }
+		public string GetOrdersByCustomerIdEndpoint { get; set; }
+		public string GetCustomersByIdEndpoint { get; set; }
 
     }
 }

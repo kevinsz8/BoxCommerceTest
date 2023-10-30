@@ -38,6 +38,12 @@ namespace ManufacturerVehicles.Orchestration.Business.Mappers
 
             CreateMap<CancelOrderHandlerRequest, CancelOrderRequest>();
             CreateMap<CancelOrderResponse, CancelOrderHandlerResponse>();
+
+            CreateMap<GetCustomerByIdHandlerRequest, GetCustomersByIdRequest>();
+            CreateMap<GetCustomersByIdResponse, GetCustomerByIdHandlerResponse>();
+
+            CreateMap<GetOrdersByCustomerIdHandlerRequest, GetOrdersByCustomerIdRequest>();
+            CreateMap<GetOrdersByCustomerIdResponse, GetOrdersByCustomerIdHandlerResponse>();
         }
 	}
 }

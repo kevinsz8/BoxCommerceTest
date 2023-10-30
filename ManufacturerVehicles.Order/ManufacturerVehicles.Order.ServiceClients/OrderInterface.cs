@@ -124,11 +124,19 @@ namespace ManufacturerVehicles.Order.ServiceClients
 		public async Task<bool> UpdateOrderStatus(UpdateOrderStatusRequest request)
 		{
 			var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderID == request.OrderId);
+            var orderItemsPending = await _context.OrderItemsPending.FirstOrDefaultAsync(o => o.OrderID == request.OrderId);
 
-			if (order != null)
+            if (order != null)
 			{
 				order.Status = request.Status.ToString();
 				_context.Orders.Update(order);
+
+				if(orderItemsPending != null)
+				{
+                    orderItemsPending.Status = request.Status.ToString();
+                    _context.OrderItemsPending.Update(orderItemsPending);
+                }
+				
 				int saveCount = await _context.SaveChangesAsync();
 
 				if (saveCount > 0)
@@ -393,6 +401,32 @@ namespace ManufacturerVehicles.Order.ServiceClients
                 response.Success = true;
 
             return response;
+        }
+
+        public async Task<GetOrdersByCustomerIdResponse> GetOrdersByCustomerId(GetOrdersByCustomerIdRequest request)
+        {
+			var OrderData = new GetOrdersByCustomerIdResponse();
+            OrderData.Orders = await(from data in _context.Orders
+									 where data.CustomerID == request.CustomerId
+                                  select new Orders
+                                  {
+                                      CustomerID = data.CustomerID,
+                                      OrderDate = data.OrderDate,
+                                      OrderID = data.OrderID,
+                                      Status = data.Status,
+                                      TotalPrice = data.TotalPrice
+                                  }).ToListAsync();
+
+            if (OrderData != null)
+            {
+                OrderData.Success = true;
+            }
+            else
+            {
+                OrderData.Success = false;
+            }
+
+            return OrderData;
         }
     }
 }

@@ -11,5 +11,6 @@ namespace ManufacturerVehicles.Orchestration.Services
     public interface ICustomerInterface
     {
         Task<GetCustomerResponse> GetCustomers(GetCustomerRequest request);
+        Task<GetCustomersByIdResponse> GetCustomersById(GetCustomersByIdRequest request);
     }
 }

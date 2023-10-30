@@ -1,13 +1,10 @@
-function populateCustomerDropdown() {
-    $.get("https://localhost:7072/Customer/getCustomers", function (data) {
+function populateCustomerInformation() {
+    var customerId = $("#CustomerId").val();
+    $.get("https://localhost:7072/Customer/getCustomerById/"+ customerId, function (data) {
         if (data.success) {
-            var dropdown = $("#customer-dropdown");
-            dropdown.empty();
-            $.each(data.customers, function (index, customer) {
-                dropdown.append($("<option></option>")
-                    .attr("value", customer.customerID)
-                    .text(customer.name));
-            });
+            $("#customerNameCard").text(data.name);
+            $("#customerEmailCard").text(data.email);
+            $("#customerPhoneCard").text(data.phone);
             $('#table-spinner').addClass('d-none');
         }
     });
@@ -15,7 +12,8 @@ function populateCustomerDropdown() {
 
 function populateOrderTable() {
     $('#table-spinner').removeClass('d-none'); 
-    $.get("https://localhost:7072/Order/getOrders/0")
+    var customerId = $("#CustomerId").val();
+    $.get("https://localhost:7072/Order/customer/" + customerId)
     .done(function (data) {
         if (data.success) {
             var orderTableBody = $("#order-table-body");
@@ -388,7 +386,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
         $('#create-order-spinner').addClass('d-none');
         $('#add-item-order-spinner').addClass('d-none');
-        //populateCustomerDropdown();
+        populateCustomerInformation();
 
 
         populateOrderTable();

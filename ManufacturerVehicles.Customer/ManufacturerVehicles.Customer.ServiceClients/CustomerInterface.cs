@@ -30,5 +30,29 @@ namespace ManufacturerVehicles.Customer.ServiceClients
 
 			return customerData;
 		}
-	}
+
+        public async Task<GetCustomersByIdResponse> GetCustomersById(GetCustomersByIdRequest request)
+        {
+            var customerData = await (from data in _context.Customers
+									  where data.CustomerID == request.CustomerId
+                                      select new GetCustomersByIdResponse
+                                      {
+                                          CustomerID = data.CustomerID,
+                                          Email = data.Email,
+                                          Name = data.Name,
+                                          Phone = data.Phone
+                                      }).FirstOrDefaultAsync();
+
+			if(customerData != null)
+			{
+				customerData.Success = true;
+			}
+			else
+			{
+				customerData.Success = false;
+			}
+
+            return customerData;
+        }
+    }
 }

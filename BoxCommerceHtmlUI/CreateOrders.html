@@ -35,12 +35,31 @@
         <form id="order-form">
             <div class="form-group">
                 <input type="hidden" name="CustomerId" id="CustomerId" />
-
+                <div class="container mt-4">
+                    <h3>Customer Information</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Customer Details</h5>
+                                    <dl class="row">
+                                        
+                                        <dt class="col-sm-4">Name:</dt>
+                                        <dd class="col-sm-8" id="customerNameCard"></dd>
+                                        
+                                        <dt class="col-sm-4">Email:</dt>
+                                        <dd class="col-sm-8" id="customerEmailCard"></dd>
+                                        
+                                        <dt class="col-sm-4">Phone:</dt>
+                                        <dd class="col-sm-8" id="customerPhoneCard"></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--I need to add Customer Data here-->
-                <label for="customer-dropdown">Select Customer:</label>
-                <select class="form-control" id="customer-dropdown">
-
-                </select>
+                
             </div>
             <button type="button" class="btn btn-primary" id="create-order-btn">Create Order</button>
             <div class="text-center" id="create-order-spinner">

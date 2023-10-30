@@ -29,5 +29,19 @@ namespace ManufacturerVehicles.Orchestration.Controllers
 
             return response;
         }
+
+        [HttpGet]
+        [Route("getCustomerById/{customerId}")]
+        [ProducesResponseType(typeof(GetCustomerByIdHandlerResponse), 200)]
+        public async Task<GetCustomerByIdHandlerResponse> GetCustomerById([FromRoute] Guid customerId)
+        {
+            var request = new GetCustomerByIdHandlerRequest()
+            {
+                CustomerId = customerId
+            };
+            var response = await _mediator.Send(request);
+
+            return response;
+        }
     }
 }
