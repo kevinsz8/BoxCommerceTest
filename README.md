@@ -50,6 +50,23 @@ Once everything is running you can open CreateOrders.html on a browser with the 
 
 ![image](https://github.com/kevinsz8/BoxCommerceTest/assets/122753396/5253c7d8-ed53-43b7-a9f6-45baa34559d7)
 
+## Testing Notifications (Update Status Order)
+
+To test the different status of the order we can use and endpoint called updateStatusOrder on the Order Service you only need to pass the OrderId and also the status you want to be notified.
+
+### orderStatus
+Confirmed = 1,
+ProductionCompleted = 2,
+Delivering = 3,
+ReadyToPickUp = 4,
+Canceled = 5
+
+![image](https://github.com/kevinsz8/BoxCommerceTest/assets/122753396/66b47f61-b4e5-4041-a35a-2431a81ddf13)
+
+
+
+
+
 
 
 
